@@ -1,0 +1,8 @@
+Resources: 
+Read these stack overflow posts in the order sent
+Lvalues and Rvalues: http://eli.thegreenplace.net/2011/12/15/understanding-lvalues-and-rvalues-in-c-and-c/
+Move semantics (follow link to copy & swap idiom): http://stackoverflow.com/questions/3106110/what-are-move-semantics?noredirect=1&lq=1
+Case when move constructor is not called: http://stackoverflow.com/questions/13099603/c11-move-constructor-not-called-default-constructor-preferred
+
+Summary:
+A way to implement the big 3 (destructor, copy constructor, copy assignment operator) in an exception safe and relatively way.

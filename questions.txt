@@ -1,4 +1,4 @@
-Do we have to support C++9 or can we go all C++11?
+Do we have to support C++98 or can we go all C++11?
 
 We need some way of specifying if a methods been overriden, like the override keyword in C++11.
 
