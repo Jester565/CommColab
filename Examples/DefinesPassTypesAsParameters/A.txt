@@ -1,0 +1,24 @@
+Example demonstrating how defines can be used to change type names into strings
+
+Key Code:
+struct Dog {
+ Dog(const std::string& str) {
+   std::cout << str << std::endl;
+  }  
+}
+
+struct Terry {
+  Terry()
+  : Dog(Terry)
+  {
+  }
+}
+#define DOG_CONSTRUCT(breedName) Dog(#breedName)
+
+int main()
+{
+  Dog sandy = new Terry();
+}
+
+Output:
+Terry

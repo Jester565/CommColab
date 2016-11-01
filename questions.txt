@@ -1,0 +1,13 @@
+Do we have to support C++9 or can we go all C++11?
+
+We need some way of specifying if a methods been overriden, like the override keyword in C++11.
+
+Do we want a Copy() method in the AbstractPacket, or just the Create.
+
+Whats the purpose of the typedef at the bottom of abstractpacket?
+
+Whats the purpose of GetValue(AbstractPacket&) in abstractpacket... Can't we just cast it normally.  Also this function returns a reference, which I think is evil.
+
+Is the packets.h file just an example?
+
+Why is the CommThread constructor created a thread then using that thread to initialize the attribute thr in the constructor?

@@ -1,0 +1,5 @@
+Summary:
+Pass varying amount of arguments into a function using vardiac templates.
+
+Documentation:
+http://eli.thegreenplace.net/2014/variadic-templates-in-c/

@@ -1,0 +1,9 @@
+C++ has functionallity to print the name of an objects type.  Let's see how to use it.
+
+Doc Link:
+http://en.cppreference.com/w/cpp/language/typeid
+
+Warning:
+1. Look at docs.  If there are no virtual methods in a base class and you inherit from the base class and try to call typeid on that object, it will print out the base class's name.
+
+2. Make sure to dereference pointers when using this method.  If you don't dereference, polymorphism won't be taken into account.

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>150</y>
+      <w>350</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>AbstractPacket
+--
+public:
+//New instance of AbstractPacket, sets the typeID attribute to the hash of typeIDHashKey
+AbstractPacket(const char* typeIDHashKey);
+
+//Accessor for the id of the packet, used to set the msg_id of a header
+uint32_t GetID() const;
+
+//Serializes the contents of the packet to the outStream parameter (pure virtual).  Called by Comm::send.
+void Pack(ObjectStream&amp; outStream) = 0;
+
+//Parses the contents of the packet from the inStream parameter (pure virtual)
+void Unpack(ObjectStream&amp; inStream) = 0;
+
+//Casts AbstractPacket to Type and returns it (return by reference evil?)
+static Type&amp; GetValue(AbstractPacket&amp; packet);
+
+//Returns a new instance of some child of AbstractPacket (pure virtual).  Used by PacketFactory.
+AbstractPacket* Create() = 0;
+
+//Default destructor
+~AbstractPacket();
+
+private:
+//Default constructor (maybe this shouldn't exist?)
+AbstractPacket();
+
+//Accessed by getID(), set by constructor. Identification number for the packet.
+uint32_t type_id;
+
+--
+
+//Call from child's constructor to AbstractPacket's constructor.  Pass in the type of the child and it
+//will be converted into a const char* and be passed into AbstractPacket constructor as classname parameter.
+CHAIN_ABSPACKET(class_name)
+
+//Example - class Packet : INHERITS_ABSPACKET {};
+INHERITS_ABSPACKET
+
+//Defined as the name of the class representing the abstractpacket (so in this case comnet::AbstractPacket)
+ABSPACKET</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
