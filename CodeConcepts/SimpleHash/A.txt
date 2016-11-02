@@ -1,0 +1,5 @@
+Summary:
+std::hash is a simple structure than can convert key values into hashes
+
+Resource:
+http://en.cppreference.com/w/cpp/utility/hash

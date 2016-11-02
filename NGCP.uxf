@@ -4,12 +4,13 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>450</x>
-      <y>150</y>
-      <w>350</w>
+      <x>220</x>
+      <y>0</y>
+      <w>320</w>
       <h>460</h>
     </coordinates>
-    <panel_attributes>AbstractPacket
+    <panel_attributes>//Abstract class to be used for determining what data should be sent and what callback to use when received.  Has a unique key to distinguish it from other packets.
+AbstractPacket
 --
 public:
 //New instance of AbstractPacket, sets the typeID attribute to the hash of typeIDHashKey
@@ -52,5 +53,565 @@ INHERITS_ABSPACKET
 //Defined as the name of the class representing the abstractpacket (so in this case comnet::AbstractPacket)
 ABSPACKET</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>1260</y>
+      <w>310</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>api.h
+--
+
+--
+//Hexidecmial representatoin of the minimum version of the library
+_COMNET_MINIMUM_API_VERSION_
+
+//Hexidecimal representation of the last version of the library that has the same method names (no deprecated methods)
+_COMNET_COMPATIBLE_API_VERSOIN_
+
+//Hexidecimal representation of the current version of the library (Should be greater than COMENT_COMPATIBLE_API_VERSION_ and COMNET_MINIMUM_API_VERSION_
+_COMNET_CURRENT_API_VERSION_
+
+//I still don't really know what this does... you pass it one of the API_VERSOIN defines and it just gives you the hexideceimal (so it just returns the parameter you passed it...)
+obtain_api_version(_api_version)
+
+//Put before classes to denote what part of the API they are (public in this case).  Never get rid of this define or the program won't compile.
+_COMNET_PUBLIC_API_
+
+//Put before classes to denote what part of the API they are (general in this case).  Never get rid of this define or the program won't compile.
+_COMNET_API_
+
+//Put before classes to denote what part of the API they are (private in this case).  Never get rid of this define or the program won't compile.
+_COMNET_API_PRIVATE_
+
+//Not implemented anywhere yet.  Denotes how much implementers of the library will have to see the classes 0 means they will probably never see it and 5 means they will see it.  Just a guess though.
+_COMNET_API_LEVEL_(UNKNOWN, 0, 1, 2,3,4,5)_
+
+//Replace for class so that the class behaving as an interface is more clear.  Not implemented anywhere.
+_COMNET_INTERFACE_
+
+//Replace for class so that the class behaving as an abstract class is more clear.  Not implemented anywhere.
+_COMNET_ABSTRACT_
+
+//Replace for class so that the class behaving as a normal class is more clear.  Not implemented anywhere.
+_CLASS_
+
+//Retunrs the value of _COMNET_CURRENT_API_VERSION_
+_current_api_version obtain_api_version(_COMNET_CURRENT_API_VERSION_)
+
+//This define is put in classes that should be apart of the DLL.  However, when in static library mode, this is left blank.
+COMM_EXPORT
+
+//Not sure what the purpose of this is.  Usually the linker will figure out dll imports for you.
+COMM_IMPORT
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>920</y>
+      <w>190</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>arch.h
+--
+
+--
+//Set to one of the defines below based on macro detection of which OS the library is being built on
+COM_TARGET_OS
+
+COM_OS_UNKNOWN
+
+COM_OS_WINDOWS
+
+COM_OS_LINUX
+
+//Not used
+COM_OS_QX
+
+//Not used
+COM_OS_BSD</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>1160</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>560</x>
+      <y>1880</y>
+      <w>400</w>
+      <h>470</h>
+    </coordinates>
+    <panel_attributes>Comms
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>580</x>
+      <y>1550</y>
+      <w>340</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>//Abstract class that will allow for easy adjustments in node changing and style.
+/CommsNode/
+--
+//Initially 0, is incremented every time a CommNode is created so the value of unique_id can be set to this value.
+static uint16_t number_of_nodes;
+
+//Sets unique_id to number_of_nodes, increments number_of_nodes.  Sets attributes to default.
+CommNode();
+
+//Sets node_id to the parameter platform_id (this name is a bit confusing to me).
+//Sets unique_id to number_of_nodes, increments number_of_nodes.  Sets attributes to default.
+CommNode(const uint32_t platform_id);
+
+//Delets the recv_queue and send_queue
+//MEMEORY LEAK: Elements inside the queues are not deleted! (Not too sure about this yet)
+~CommNode();
+
+//Calls packet_manger.Insert to add packet to table.  Callback is set to NULL.  True if added successfull.
+bool AddPacket(const AbstractPacket* packet);
+
+//Calls packet_manager.Insert to add packet, callback pair to table.  True if added successfully.
+bool LinkCallback(AbstractPacket* packet, const Callback* callback);
+
+//TODO: Figure out what this does
+bool LinkQueue(const AbstractPacket* packet, const Queue&lt;AbstractPacket*&gt;* queue);
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>750</x>
+      <y>1830</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>570</x>
+      <y>1040</y>
+      <w>350</w>
+      <h>480</h>
+    </coordinates>
+    <panel_attributes>PacketManager
+--
+//Initializes table to DEFAULT_TABLE_SIZE
+PacketManager();
+
+//Initializes table to the parameter value
+PacketManager(uint32_t setSize);
+
+//Deletes the table
+~PacketManager();
+
+//Inserts 2 parameters as a pair into list
+bool Insert(const AbstractPacket* key, const Callback* callback);
+
+//Calls table-&gt;GetCallback, gets the Callback associated with the key, null if key doesn't exist in the table.
+Callback* PacketManager::Get(const AbstractPacket&amp; key);
+
+//Calls table-&gt;remove true if removed successfully, false otherwise. 
+//WILL FAIL EVERY TIME RIGHT NOW
+bool Remove(const AbstractPacket* key);
+
+//NOT IMPLEMENTED
+bool Contains(const AbstractPacket&amp; key);
+
+//NOT IMPLEMENTED
+//Well, this would certainly be a slow lookup, is it necessary
+bool Contains(Callback* call);
+
+//Accessor for size attribute
+int32_t GetSize();
+
+//Uses factory to create a new instance of a AbstractPacket subtype of the AbstractPacket saved at the key.  Nullptr if key has no elements or AbstractPacket::Create returns nullptr.
+AbstractPacket* ProduceFromId(uint32_t key);
+
+private:
+//Used in ProduceFromId method.  Creates instance of AbstractPacket matching subtype of other AbstractPacket.
+PacketFactory factory;
+
+//Hashtable storing AbstractPacket and Callback pairs
+PacketTable* table;
+
+//Stores amount of pairs in table
+//THIS SHOULDN'T EXIST
+int32_t size;
+
+//THIS SHOULDN't EXIST
+int32_t MaxSize;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>1510</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>780</x>
+      <y>840</y>
+      <w>310</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>//Creates new packets of the same sub-type of the AbstractPacket that was passed in.
+PacketFactory
+--
+//Sets id to 1 (no idea what id is supposed to do)
+PacketFactory();
+
+//Takes a packet and returns AbstractPacket::create() if that packet was not nullptr.
+AbstractPacket* ProduceNewPacket(AbstractPacket* ref);
+
+private:
+//No idea what this does.  Is not currently used anywher.
+uint32_t id;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>750</x>
+      <y>970</y>
+      <w>200</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>180.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>520</y>
+      <w>320</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>//Implementation of a hashtable for AbstractPackets and CallBacks
+PacketTable
+--
+//Creates an array of null pointers to Pair arrays that will be the size of the parameter
+PacketTable(uint32_t setSize);
+
+//Creates an array of null pointers to Pair arrays that will be the size of DEFAULT_TABLE_SIZE
+PacketTable();
+
+//Deletes all the elements inside of the pairs that make up the table and then deletes the table/
+~PacketTable();
+
+//Inserts an element into the hashtable.  Will fail if array is full.  Returns true if element was added successfully.
+//Called by PacketManager::insert
+bool Insert(const AbstractPacket* key, const Callback* callback);
+
+//Gets the element at the hashed key and returns the callback, nullptr if no element exists at the key.
+Callback* GetCallback(uint32_t key);
+
+//Gets the element at the hashed key and returns the AbstractPacket, nullptr if no element exists at the key.
+AbstractPacket* PacketTable::GetPacket(uint32_t key);
+
+//Not implemented yet
+bool Remove(uint32_t key);
+
+//Not implemented yet
+bool Resize(uint32_t newSize);
+
+private:
+//Increments i, sets it to 0 if greater than or equal to tableSize.  Called by Insert.
+int32_t TraverseIndex(int32_t i);
+
+//Hashes the key and returns an integer between 0 and tableSize (but no equal to tableSize)
+uint32_t KeyHash(uint32_t key);
+
+//An array of Pair* with size tableSize.  Where all the elements are inserted, etc.
+Pair** table;
+
+//Number of elements in the array.
+uint32_t numOfPairs;
+
+//The maximum amount of elements that can be stored in the map before a resize is needed.
+uint32_t tableSize;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>570</x>
+      <y>970</y>
+      <w>190</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;170.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>450</y>
+      <w>160</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;140.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>950</x>
+      <y>1840</y>
+      <w>650</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>630.0;60.0;590.0;10.0;100.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1540</x>
+      <y>1900</y>
+      <w>390</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>/CommsLink/
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1140</x>
+      <y>2470</y>
+      <w>330</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>UDPLink
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1460</x>
+      <y>2250</y>
+      <w>120</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>100.0;10.0;60.0;200.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1560</x>
+      <y>2470</y>
+      <w>350</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>SerialLink
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2030</x>
+      <y>2470</y>
+      <w>360</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>XBeeLink
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1720</x>
+      <y>2250</y>
+      <w>30</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1920</x>
+      <y>2200</y>
+      <w>310</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;290.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1720</x>
+      <y>1760</y>
+      <w>30</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1630</x>
+      <y>1690</y>
+      <w>210</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>transport_protocol_t
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1290</x>
+      <y>2370</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1140</x>
+      <y>2040</y>
+      <w>330</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>UDP
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1200</x>
+      <y>1870</y>
+      <w>200</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>socket_t
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1290</x>
+      <y>1970</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1150</x>
+      <y>1420</y>
+      <w>360</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>AESEncryption
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>920</x>
+      <y>1600</y>
+      <w>250</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>230.0;10.0;170.0;50.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>590</x>
+      <y>170</y>
+      <w>320</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>//Stores an std::function (typedefed as CallbackFunc) that is invoked by CallFunction
+//WARNING: CallbackFunc is a typedef of std::function but takes the appropiate parameters and has the right return type
+Callback
+--
+public:
+//Initializes the CallbackFunc to a method that returns -100
+Callback();
+
+//Initialize the Callback and set the CallbackFunc to the parameter.  Function must take parameters: const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node
+Callback(CallbackFunc call);
+
+//Default destructor
+~Callback();
+
+//Set the CallbackFunc to the parameter, the function must take parameters: const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node
+void SetCallbackListener(CallbackFunc call);
+
+//Called by Comms::CommunicationHandlerRecv and will run the method and will pass in the appropiate parameters
+error_t CallFunction(const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node);
+
+private:
+//Remember that CallBackFunc is a typedef for std::function.  Must take the parameters (const Header&amp;, AbstractPacket&amp;, CommNode&amp;)
+CallBackFunc callback;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>450</y>
+      <w>140</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;70.0</additional_attributes>
   </element>
 </diagram>

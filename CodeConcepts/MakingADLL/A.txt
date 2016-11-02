@@ -1,0 +1,7 @@
+Resources:
+https://msdn.microsoft.com/en-us/library/ms235636.aspx
+http://stackoverflow.com/questions/17935113/declspecdllimport-how-to-load-library
+
+Summary:
+Guide to making a .dll library and using __declspec() to suggest the classes that should be put into the compiler.
+Note that there seems to be no reason to use dllimport because a .lib file will also be generated and negates the requirement to manually load the library.
