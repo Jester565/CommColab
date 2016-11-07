@@ -1,41 +1,17 @@
-Do we have to support C++98 or can we go all C++11?
+What is CommNode::LinkQueue supposed to do?
 
-We need some way of specifying if a methods been overriden, like the override keyword in C++11.
+Comms::InitConnection's address parameter is never used.
 
-Whats the purpose of the typedef at the bottom of abstractpacket.h?
+Should the queue in comms contain references or shared_ptrs?
 
-Whats the purpose of GetValue(AbstractPacket&) in abstractpacket... Can't we just cast it normally?
+NULL or nullptr?  Doesn't really matter but in the future which one would you prefer?
 
-Is the packets.h file just an example?
+UDP::si_other is no longer used because of the UdpLink::map (map isn't a very good name for that by the way maybe name is clients instead).
 
-Why is the CommThread constructor create a thread then using that thread to initialize the attribute thr in the constructor (do you want to call the move constructor or something)?
+UDP::rx_buf not being used, shouldn't need because buffer is being passed in as parameter in Recv.
 
-What is the purpose of obtain_api_version in api.h?
+Check the move constructor on UDP... its not transferring over slen and fd.
 
-Why are the Header Files in the architecture folder in visual studio?
+MAJOR ISSUE: UDP clients will close the socket upon destruction.
 
-Why is structure always put in front of address_in?
-
-PacketTable is an unfinished version of std::unordered_list... Why not just use std::unordered_list?  Also why make a Pair class when std::pair exists?
-
-After defining __COMMS_DEBUG_FATAL_EXIT, a call to comms_fatal. The program will not exit, maybe change the name if thats not the behavior we want.
-
-Whats the point of call in comms_fatal? (Changed it so it works now. I think.)
-
-Inserting a Packet into the PacketTable should be guaranteed.  After that, returning a boolean on all of the calls won't be necessary.
-
-HUGE LOGIC ERROR!!!  GetCallback is not accounting that insert will just iterate along the hashtable until it finds an open position.  Needs fixing!
-
-What is the purpose of PacketFactory id?
-
-There is a DEFAULT_TABLE_SIZE in packetmanager and a DEFAULT_TABLE_SIZE in PacketTable, we need to decide which one we are going to use.
-
-Is Contains(Callback* call) in PacketManager necessary?
-
-We should get rid of size and MaxSize in PacketManager, this is already in PacketTable.
-
-What's up with the naming convention between size and MaxSize in PacketManager.  One is capatilized and one isn't.
-
-When will CommNode's unique_id ever be used?
-
-MEMORY LEAK???  CommNode destructor not deleting elements inside the queue.  Just deletes the queue.  //Don't take this seriously yet, I still need to look at the implementation.
+Shouldn't UDP be initialized to the socket being closed.

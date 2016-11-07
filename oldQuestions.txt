@@ -1,0 +1,58 @@
+Do we have to support C++98 or can we go all C++11?
+- We can use all of the C++11 features
+
+We need some way of specifying if a methods been overriden, like the override keyword in C++11.
+
+Whats the purpose of the typedef at the bottom of abstractpacket.h?
+- Nevermind, it works
+
+Whats the purpose of GetValue(AbstractPacket&) in abstractpacket... Can't we just cast it normally?
+- Makes the code more clear, needed for lambda expressions
+
+Is the packets.h file just an example?
+- Yes, might be deprecated
+
+Why is the CommThread constructor create a thread then using that thread to initialize the attribute thr in the constructor (do you want to call the move constructor or something)?
+- A wrapper for thread.
+
+What is the purpose of obtain_api_version in api.h?
+- More clear
+
+Why are the Header Files in the architecture folder in visual studio?
+- I did that
+
+Why is structure always put in front of address_in?
+- A style in C, makes it more readable
+
+PacketTable is an unfinished version of std::unordered_list... Why not just use std::unordered_list?  Also why make a Pair class when std::pair exists?
+- Fixed
+
+After defining __COMMS_DEBUG_FATAL_EXIT, a call to comms_fatal. The program will not exit, maybe change the name if thats not the behavior we want.
+- We don't want to exit, this is bad for the system as the callstack isn't cleaned up.
+
+Whats the point of call in comms_fatal? (Changed it so it works now. I think.)
+- No point
+
+Inserting a Packet into the PacketTable should be guaranteed.  After that, returning a boolean on all of the calls won't be necessary.
+- Use C++ code, not preprocessor
+
+HUGE LOGIC ERROR!!!  GetCallback is not accounting that insert will just iterate along the hashtable until it finds an open position.  Needs fixing!
+
+What is the purpose of PacketFactory id?
+
+There is a DEFAULT_TABLE_SIZE in packetmanager and a DEFAULT_TABLE_SIZE in PacketTable, we need to decide which one we are going to use.
+
+Is Contains(Callback* call) in PacketManager necessary?
+- Yes, but it is slow
+
+We should get rid of size and MaxSize in PacketManager, this is already in PacketTable.
+- Yep
+
+What's up with the naming convention between size and MaxSize in PacketManager.  One is capatilized and one isn't.
+- Pascal form (capatalize if you want it to be public)
+
+When will CommNode's unique_id ever be used?
+- UniqueID is internal, NodeID is external
+
+MEMORY LEAK???  CommNode destructor not deleting elements inside the queue.  Just deletes the queue.  //Don't take this seriously yet, I still need to look at the implementation.
+- Defined an interface for queue. Maybe use shared_pointers

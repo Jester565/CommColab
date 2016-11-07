@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>220</x>
+      <x>180</x>
       <y>0</y>
       <w>320</w>
       <h>460</h>
@@ -57,8 +57,8 @@ ABSPACKET</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>1260</y>
+      <x>0</x>
+      <y>1700</y>
       <w>310</w>
       <h>510</h>
     </coordinates>
@@ -114,8 +114,8 @@ COMM_IMPORT
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>920</y>
+      <x>60</x>
+      <y>1360</y>
       <w>190</w>
       <h>250</h>
     </coordinates>
@@ -142,8 +142,8 @@ COM_OS_BSD</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
-      <y>1160</y>
+      <x>140</x>
+      <y>1600</y>
       <w>30</w>
       <h>120</h>
     </coordinates>
@@ -153,22 +153,24 @@ COM_OS_BSD</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>560</x>
-      <y>1880</y>
+      <x>530</x>
+      <y>2470</y>
       <w>400</w>
       <h>470</h>
     </coordinates>
     <panel_attributes>Comms
---</panel_attributes>
+--
+//Will create a certain subclass of CommsLink based on the parameter conn_type and will open a socket on this machine (Address is not used).
+bool InitConnection(transport_protocol_t conn_type, const char* port, const char* address, uint32_t baudrate);</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>580</x>
-      <y>1550</y>
+      <x>550</x>
+      <y>1990</y>
       <w>340</w>
-      <h>290</h>
+      <h>420</h>
     </coordinates>
     <panel_attributes>//Abstract class that will allow for easy adjustments in node changing and style.
 /CommsNode/
@@ -193,28 +195,41 @@ bool AddPacket(const AbstractPacket* packet);
 //Calls packet_manager.Insert to add packet, callback pair to table.  True if added successfully.
 bool LinkCallback(AbstractPacket* packet, const Callback* callback);
 
-//TODO: Figure out what this does
+//Not implemented
 bool LinkQueue(const AbstractPacket* packet, const Queue&lt;AbstractPacket*&gt;* queue);
 
-</panel_attributes>
+//Delete the current send_queue and reassign it to the one passed as a parameter.
+bool ReplaceSendQueue(const Queue&lt;ObjectStream*&gt;* queue);
+
+//Delete the current recv_queue and reassign it to the one passed as a parameter.
+bool ReplaceReceiveQueue(const Queue&lt;AbstractPacket*&gt;* queue);
+
+//Send packet to specified destination.
+bool Send(AbstractPacket* packet, uint8_t dest_id) = 0;
+
+//Checks if data was received, if it was, the AbstractPacket is created, the corresponding callback is called, and the abstractpacket is returned.
+AbstractPacket* Receive(uint8_t&amp; source_id) = 0;
+
+//Will initialize a connection device
+bool InitConnection(transport_protocol_t conn_type, const char* port, const char* address, uint16_t port) = 0;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>750</x>
-      <y>1830</y>
+      <x>720</x>
+      <y>2400</y>
       <w>30</w>
-      <h>70</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>570</x>
-      <y>1040</y>
+      <x>550</x>
+      <y>1470</y>
       <w>350</w>
       <h>480</h>
     </coordinates>
@@ -270,19 +285,19 @@ int32_t MaxSize;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>740</x>
-      <y>1510</y>
+      <x>720</x>
+      <y>1940</y>
       <w>30</w>
-      <h>60</h>
+      <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>780</x>
-      <y>840</y>
+      <x>760</x>
+      <y>1280</y>
       <w>310</w>
       <h>140</h>
     </coordinates>
@@ -303,24 +318,391 @@ uint32_t id;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>750</x>
-      <y>970</y>
+      <x>730</x>
+      <y>1410</y>
       <w>200</w>
-      <h>90</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>180.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>180.0;10.0;160.0;30.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>400</x>
-      <y>520</y>
+      <x>380</x>
+      <y>1110</y>
       <w>320</w>
-      <h>460</h>
+      <h>310</h>
     </coordinates>
     <panel_attributes>//Implementation of a hashtable for AbstractPackets and CallBacks
-PacketTable
+/PacketTable/
+--
+//Creates an array of null pointers to Pair arrays that will be the size of the parameter
+PacketTable(uint32_t setSize);
+
+//Creates an array of null pointers to Pair arrays that will be the size of DEFAULT_TABLE_SIZE
+PacketTable();
+
+//Deletes all the elements inside of the pairs that make up the table and then deletes the table/
+~PacketTable();
+
+//Inserts an element into the hashtable.  Will fail if array is full.  Returns true if element was added successfully.
+//Called by PacketManager::insert
+bool Insert(const AbstractPacket* key, const Callback* callback);
+
+//Gets the element at the hashed key and returns the callback, nullptr if no element exists at the key.
+Callback* GetCallback(uint32_t key);
+
+//Gets the element at the hashed key and returns the AbstractPacket, nullptr if no element exists at the key.
+AbstractPacket* PacketTable::GetPacket(uint32_t key);
+
+//Pointer to a callback
+bool Contains(Callback* call);
+
+//Removes the pair with the matching key from the array.  True on success, false otherwise.
+bool Remove(uint32_t key);
+
+//Aquires more memory for the Pairs.  Cannot decrease the size of the memory.
+bool Reserve(uint32_t newSize);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>550</x>
+      <y>1410</y>
+      <w>190</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;30.0;30.0;170.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>920</x>
+      <y>2280</y>
+      <w>660</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>640.0;60.0;600.0;10.0;110.0;10.0;10.0;260.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1520</x>
+      <y>2340</y>
+      <w>390</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>/CommsLink/
+--
+//Default constructor.
+CommsLink();
+
+//Default destructor.
+~CommsLink();
+
+//Opens a socket on the machine (address is not used).
+bool InitConnection(const char* port = NULL, const char* address, uint32_t baudrate);
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1120</x>
+      <y>2920</y>
+      <w>330</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>UDPLink
+--
+//Sets protocol to UDP_LINK
+UDPLink();
+
+//Closes local
+~UDPLink();
+//Initializes local object and binds it to the port parameter on localhost.
+bool InitConnection(const char* port = NUll, const char* address = NULL, uint16_t port) = 0;
+
+//Initializes a udp object and adds it to clients. Returns true on successful connection.
+bool AddAddress(uint8_t dest_id, const char* address, uint16_t port);
+
+//Removes the client with the dest_id.  True on successful removal.
+bool RemoveAddress(uint8_t dest_id);
+
+//Sends data to the client with the dest_id.
+bool Send(uint8_t dest_id, int8_t* txData, uint32_t txLength);
+
+//Receives data from all clients.
+bool Recv(int8_t* rxData, uint32_t* rxLength);
+
+//Not implemented
+void DigestCommand(const char* cmd);
+
+private:
+//Doesn't send or receive anything. Initializes and opens the socket.
+UDP local;
+
+//Contains all of the clients connected to this socket.
+std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1440</x>
+      <y>2690</y>
+      <w>120</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>100.0;10.0;60.0;200.0;10.0;260.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1540</x>
+      <y>3290</y>
+      <w>350</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>SerialLink
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2010</x>
+      <y>2910</y>
+      <w>360</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>XBeeLink
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1460</x>
+      <y>2690</y>
+      <w>120</w>
+      <h>620</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>100.0;10.0;50.0;220.0;10.0;290.0;10.0;540.0;90.0;600.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1900</x>
+      <y>2640</y>
+      <w>310</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;290.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1700</x>
+      <y>2200</y>
+      <w>30</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1610</x>
+      <y>2130</y>
+      <w>210</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>transport_protocol_t
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1270</x>
+      <y>2890</y>
+      <w>30</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1120</x>
+      <y>2490</y>
+      <w>330</w>
+      <h>410</h>
+    </coordinates>
+    <panel_attributes>UDP
+--
+//Default constructor.
+UDP();
+
+//Move constructor.  Uses copy and swap idiom.
+UDP(UDP&amp;&amp; udp);
+
+//Default destructor.
+~UDP();
+
+//Calls UdpOpen and binds the socket to the port passed in as a parameter.
+bool InitConnection(const char* port = NULL, const char* address = NULL, uint32_t baudrate = 0);
+
+//If the socket is open, create and return a UDP object representing a client with the IP of the parameters passed in.
+std::unique_ptr&lt;UDP&gt; Connect(uint8_t dest_id, const char* address = NULL, uint16_t port = 0);
+
+//Sends the data array by using the sendto function in the OS API.
+bool Send(uint8_t* tx_data, uint32_t tx_length);
+
+//If data was received, set the rx_data array to the data that was received and return true.
+bool Recv(uint8_t* rx_data, uint32_t* rx_length);
+
+//Closes the socket if the socket is not already closed. True on success.
+bool Close();
+
+private:
+//Initializes UDP socket
+UdpOpen(int* fd);
+
+//The socket id, set by UdpOpen.
+int fd;
+
+//The IP address of the UDP socket.
+socket_t sockaddr;
+
+//The size of sockaddr.socket_address in bytes.
+int slen;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1180</x>
+      <y>2310</y>
+      <w>200</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>socket_t
+--
+//Integer that holds the socket identication number for calls to winsock.
+SOCKET socket;
+
+//Port the socket binds to.
+PORT port;
+
+//Holds the destination id of the UDP object.
+ID_T id;
+
+//Either SOCKET_OPEN, SOCKET_CLOSED, SOCKET_RESOLVING, SOCKET_CONNECTING, SOCKET_CONNECTED, SOCKET_LISTENING, SOCKET_FAILED
+socket_status_t socket_status;
+
+//Holds the information necessary for calls to send and receive.
+struct sockaddr_in socket_address;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1270</x>
+      <y>2460</y>
+      <w>30</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1130</x>
+      <y>1860</y>
+      <w>360</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>AESEncryption
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>890</x>
+      <y>2040</y>
+      <w>260</w>
+      <h>450</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>240.0;10.0;180.0;50.0;10.0;430.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>590</x>
+      <y>160</y>
+      <w>320</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>//Stores an std::function (typedefed as CallbackFunc) that is invoked by CallFunction
+//WARNING: CallbackFunc is a typedef of std::function but takes the appropiate parameters and has the right return type
+Callback
+--
+public:
+//Initializes the CallbackFunc to a method that returns -100
+Callback();
+
+//Initialize the Callback and set the CallbackFunc to the parameter.  Function must take parameters: const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node
+Callback(CallbackFunc call);
+
+//Default destructor
+~Callback();
+
+//Set the CallbackFunc to the parameter, the function must take parameters: const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node
+void SetCallbackListener(CallbackFunc call);
+
+//Called by Comms::CommunicationHandlerRecv and will run the method and will pass in the appropiate parameters
+error_t CallFunction(const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node);
+
+private:
+//Remember that CallBackFunc is a typedef for std::function.  Must take the parameters (const Header&amp;, AbstractPacket&amp;, CommNode&amp;)
+CallBackFunc callback;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>1050</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>390</x>
+      <y>600</y>
+      <w>310</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>PacketHashTable
 --
 //Creates an array of null pointers to Pair arrays that will be the size of the parameter
 PacketTable(uint32_t setSize);
@@ -367,251 +749,47 @@ uint32_t tableSize;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>570</x>
-      <y>970</y>
-      <w>190</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;70.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>370</x>
+      <x>310</x>
       <y>450</y>
-      <w>160</w>
-      <h>90</h>
+      <w>250</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;140.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;20.0;40.0;230.0;150.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>950</x>
-      <y>1840</y>
-      <w>650</w>
-      <h>130</h>
+      <x>530</x>
+      <y>440</y>
+      <w>250</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>630.0;60.0;590.0;10.0;100.0;10.0;10.0;110.0</additional_attributes>
+    <additional_attributes>230.0;10.0;200.0;50.0;10.0;160.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>1540</x>
-      <y>1900</y>
-      <w>390</w>
-      <h>360</h>
-    </coordinates>
-    <panel_attributes>/CommsLink/
---</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1140</x>
-      <y>2470</y>
-      <w>330</w>
-      <h>440</h>
-    </coordinates>
-    <panel_attributes>UDPLink
---</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1460</x>
-      <y>2250</y>
-      <w>120</w>
-      <h>270</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>100.0;10.0;60.0;200.0;10.0;250.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1560</x>
-      <y>2470</y>
+      <y>2870</y>
       <w>350</w>
-      <h>440</h>
+      <h>390</h>
     </coordinates>
-    <panel_attributes>SerialLink
---</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>2030</x>
-      <y>2470</y>
-      <w>360</w>
-      <h>440</h>
-    </coordinates>
-    <panel_attributes>XBeeLink
---</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1720</x>
-      <y>2250</y>
-      <w>30</w>
-      <h>240</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1920</x>
-      <y>2200</y>
-      <w>310</w>
-      <h>290</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;290.0;270.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1720</x>
-      <y>1760</y>
-      <w>30</w>
-      <h>160</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1630</x>
-      <y>1690</y>
-      <w>210</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>transport_protocol_t
---</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1290</x>
-      <y>2370</y>
-      <w>30</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1140</x>
-      <y>2040</y>
-      <w>330</w>
-      <h>340</h>
-    </coordinates>
-    <panel_attributes>UDP
---</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1200</x>
-      <y>1870</y>
-      <w>200</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>socket_t
---</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1290</x>
-      <y>1970</y>
-      <w>30</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1150</x>
-      <y>1420</y>
-      <w>360</w>
-      <h>280</h>
-    </coordinates>
-    <panel_attributes>AESEncryption
---</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>920</x>
-      <y>1600</y>
-      <w>250</w>
-      <h>300</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>230.0;10.0;170.0;50.0;10.0;280.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>590</x>
-      <y>170</y>
-      <w>320</w>
-      <h>290</h>
-    </coordinates>
-    <panel_attributes>//Stores an std::function (typedefed as CallbackFunc) that is invoked by CallFunction
-//WARNING: CallbackFunc is a typedef of std::function but takes the appropiate parameters and has the right return type
-Callback
+    <panel_attributes>Serial
 --
-public:
-//Initializes the CallbackFunc to a method that returns -100
-Callback();
-
-//Initialize the Callback and set the CallbackFunc to the parameter.  Function must take parameters: const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node
-Callback(CallbackFunc call);
-
-//Default destructor
-~Callback();
-
-//Set the CallbackFunc to the parameter, the function must take parameters: const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node
-void SetCallbackListener(CallbackFunc call);
-
-//Called by Comms::CommunicationHandlerRecv and will run the method and will pass in the appropiate parameters
-error_t CallFunction(const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node);
-
-private:
-//Remember that CallBackFunc is a typedef for std::function.  Must take the parameters (const Header&amp;, AbstractPacket&amp;, CommNode&amp;)
-CallBackFunc callback;</panel_attributes>
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>590</x>
-      <y>450</y>
-      <w>140</w>
-      <h>90</h>
+      <x>1700</x>
+      <y>3250</y>
+      <w>30</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>120.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
   </element>
 </diagram>
