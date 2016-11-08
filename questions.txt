@@ -19,3 +19,5 @@ Currently, passing NULL into the address will cause a runtime error.  And it mak
 It seems like encryption is enforced.  Perhaps it would be better to only enable encryption when LoadKey has been called.
 
 The sendArray passed into Serial::send MUST be 4 bytes larger than the value of the length parameter. This could lead to undefined behavior and invalid CRC's.
+
+Are we going to fix libxbee.dll dependency for the test projects?  Perhaps there is a way to set the working directory of those projects from cmake...
