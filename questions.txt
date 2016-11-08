@@ -1,7 +1,5 @@
 What is CommNode::LinkQueue supposed to do?
 
-Comms::InitConnection's address parameter is never used.
-
 Should the queue in comms contain references or shared_ptrs?
 
 NULL or nullptr?  Doesn't really matter but in the future which one would you prefer?
@@ -14,4 +12,10 @@ Check the move constructor on UDP... its not transferring over slen and fd.
 
 MAJOR ISSUE: UDP clients will close the socket upon destruction.
 
-Shouldn't UDP be initialized to the socket being closed.
+Shouldn't UDP be initialized with the socket status set to SOCKET_CLOSED?
+
+Currently, passing NULL into the address will cause a runtime error.  And it makes sense to pass in NULL to the address because it doesn't do anything for two of the protocols...
+
+It seems like encryption is enforced.  Perhaps it would be better to only enable encryption when LoadKey has been called.
+
+The sendArray passed into Serial::send MUST be 4 bytes larger than the value of the length parameter. This could lead to undefined behavior and invalid CRC's.
