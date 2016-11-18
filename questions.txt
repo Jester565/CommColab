@@ -2,22 +2,5 @@ What is CommNode::LinkQueue supposed to do?
 
 Should the queue in comms contain references or shared_ptrs?
 
-NULL or nullptr?  Doesn't really matter but in the future which one would you prefer?
-
-UDP::si_other is no longer used because of the UdpLink::map (map isn't a very good name for that by the way maybe name is clients instead).
-
-UDP::rx_buf not being used, shouldn't need because buffer is being passed in as parameter in Recv.
-
-Check the move constructor on UDP... its not transferring over slen and fd.
-
-MAJOR ISSUE: UDP clients will close the socket upon destruction.
-
-Shouldn't UDP be initialized with the socket status set to SOCKET_CLOSED?
-
-Currently, passing NULL into the address will cause a runtime error.  And it makes sense to pass in NULL to the address because it doesn't do anything for two of the protocols...
-
-It seems like encryption is enforced.  Perhaps it would be better to only enable encryption when LoadKey has been called.
-
-The sendArray passed into Serial::send MUST be 4 bytes larger than the value of the length parameter. This could lead to undefined behavior and invalid CRC's.
-
 Are we going to fix libxbee.dll dependency for the test projects?  Perhaps there is a way to set the working directory of those projects from cmake...
+
