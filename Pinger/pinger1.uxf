@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>414</x>
+      <y>441</y>
+      <w>288</w>
+      <h>261</h>
+    </coordinates>
+    <panel_attributes>/Pinger/
+--
+Pinger();
+
+//The amount of milliseconds needed to go by without receiving a
+//packet before pinging
+static const int PING_TIME_MILLIS = 1000;
+//The amount of milliseconds needed to go by without receiving a
+//packet before pinging
+static const int CLOSE_TIME_MILLIS = PING_TIME * 2;
+//So that Pingers can be sorted in the Set, compares destID
+bool operator &lt; (const Pinger&amp; pinger1, const Pinger&amp; pinger2);
+//Sets lastReceiveTime to current time
+virtual void ResetPingTime();
+//Returns the next time a ping will have to be performed
+//PING_TIME_MILLIS + lastReceiveTime - clock()
+virtual int GetNextPingTimeMillis();
+//Accessor for destID
+virtual int GetDestID();
+//Sets the socket state to close, varies between implementation
+virtual void CloseConnection() = 0;
+
+protected:
+//The last time a packet was received
+clock_t lastReceiveTime;
+//The nodeId of the client
+const uint8_t destID;
+//Prevents lastReceiveTime from being modified at the same time
+CommMutex receiveTimeMutex;
+//Prevents the sockets state from being modified (Will requre child to implement)
+CommMutex connectionStateMutex;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>144</x>
+      <y>783</y>
+      <w>234</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>UDPClient
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>423</x>
+      <y>873</y>
+      <w>261</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>XBeeClient
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>666</x>
+      <y>693</y>
+      <w>27</w>
+      <h>198</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>693</y>
+      <w>81</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>720</x>
+      <y>783</y>
+      <w>234</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>SerialClient
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>693</x>
+      <y>693</y>
+      <w>162</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+   Inherets from</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;50.0;160.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>459</x>
+      <y>711</y>
+      <w>189</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>CommXBee
+--
+std::set &lt;XBeeClient&gt; clients;
+
+std::set &lt;Pinger&gt; GetPingers();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>837</y>
+      <w>27</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>909</x>
+      <y>693</y>
+      <w>81</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+Owned by</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>837</x>
+      <y>585</y>
+      <w>180</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>Serial
+--
+std::set &lt;SerialClient&gt; clients;
+
+std::set &lt;Pinger&gt; GetPingers();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>135</x>
+      <y>567</y>
+      <w>189</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>UDP
+--
+std::set &lt;UDPClient&gt; clients;
+
+std::set&lt;Pinger&gt; GetPingers();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>225</x>
+      <y>702</y>
+      <w>135</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+These are the same
+but UDP is also
+used as a client</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>297</x>
+      <y>414</y>
+      <w>90</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>360</x>
+      <y>324</y>
+      <w>360</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>/CommsLink/
+--
+virtual std::set &lt;Pinger&gt; GetPingers();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>711</x>
+      <y>414</y>
+      <w>225</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;40.0;230.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>90</x>
+      <y>369</y>
+      <w>387</w>
+      <h>531</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>300.0;10.0;10.0;110.0;20.0;570.0;340.0;570.0;340.0;460.0;410.0;460.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>108</y>
+      <w>351</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>PingManager
+--
+//The minimum amount of time the pingSendThread will sleep 
+//after calling HandlePingUpdate()
+static const int MINIMUM_SLEEP_TIME;
+
+PingManager(Comms* comm);
+
+//Initializes and runs the 
+bool Init();
+
+//The callback for PingPackets
+error_t PingCallback(Header, AbstractPacket);
+
+//Iterates through pingers and calls CheckPing();
+void HandlePingUpdate();
+
+//Sets running to false, deletes pingPacket
+~PingCallback();
+
+//Thread that calls HandlePingUpdate
+std::shared_ptr&lt;CommThread&gt; pingSendThread;
+//Determines when the thread should be killed.
+bool running;
+//Protects running from being modified by the main thread and read by HandlePingUpdate at the same time
+CommMutex runningMutex;
+//The packet used to send pings
+PingPacket* pingPacket;
+//Pointer to the Comms that owns the PingManager, used to send stuff
+Comms* comms;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>414</x>
+      <y>126</y>
+      <w>297</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>Comms
+--
+std::set &lt;Pinger&gt; GetPingers();
+
+PingManager pingManager;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>558</x>
+      <y>225</y>
+      <w>27</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>702</x>
+      <y>153</y>
+      <w>180</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>927</x>
+      <y>414</y>
+      <w>261</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>PingPacket
+--
+PingPacket()
+
+void Pack(OBJECTSTREAM objOut);
+
+void Unpacket(OBJECTSTREAM objIn);
+
+AbstractPacket* Create();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1035</x>
+      <y>369</y>
+      <w>27</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1179</x>
+      <y>396</y>
+      <w>162</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>160.0;10.0;150.0;50.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1224</x>
+      <y>225</y>
+      <w>198</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>/AbstractPacket/
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1035</x>
+      <y>81</y>
+      <w>27</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>945</x>
+      <y>63</y>
+      <w>189</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>/std::shared_from_this/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>342</x>
+      <y>0</y>
+      <w>495</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>Design1
+--
++Instant access to the connection state of a socket
++Less space is used because the Pinger is the client
++Forces common behaviors between clients
+
+-More complex design
+-More difficultto access the set of pingers</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

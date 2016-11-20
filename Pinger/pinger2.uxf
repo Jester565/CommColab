@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>873</x>
+      <y>396</y>
+      <w>351</w>
+      <h>342</h>
+    </coordinates>
+    <panel_attributes>PingManager
+--
+//The minimum amount of time the pingSendThread will sleep 
+//after calling HandlePingUpdate()
+static const int MINIMUM_SLEEP_TIME;
+
+PingManager(Comms* comm);
+
+//Initializes and runs the 
+bool Init();
+
+//The callback for PingPackets
+error_t PingCallback(Header, AbstractPacket);
+
+//Iterates through pingers and calls CheckPing();
+void HandlePingUpdate();
+
+//Destination id of pinger to add.
+void AddPinger(uint8_t destID);
+
+//Pass in destinationid of pinger you want removed
+void RemovePinger(uint8_t destID);
+
+//Sets running to false, deletes pingPacket
+~PingCallback();
+
+//Holds all of the clients.  Added to when Comms::AddAddress is called.
+//Removed from when Comms::RemoveAddress is called.
+std::list &lt;Pinger&gt; pingers;
+//Thread that calls HandlePingUpdate
+std::shared_ptr&lt;CommThread&gt; pingSendThread;
+//Determines when the thread should be killed.
+bool running;
+//Protects running from being modified by the main thread and read by HandlePingUpdate at the same time
+CommMutex runningMutex;
+//The packet used to send pings
+PingPacket* pingPacket;
+//Pointer to the Comms that owns the PingManager, used to send stuff
+Comms* comms;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>423</x>
+      <y>297</y>
+      <w>297</w>
+      <h>198</h>
+    </coordinates>
+    <panel_attributes>Comms
+--
+//Calls CommsLink setClosed()
+void SetClosed(uint8_t destID);
+
+Pinger pinger;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>711</x>
+      <y>414</y>
+      <w>180</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>936</x>
+      <y>792</y>
+      <w>261</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>PingPacket
+--
+PingPacket()
+
+void Pack(OBJECTSTREAM objOut);
+
+void Unpacket(OBJECTSTREAM objIn);
+
+AbstractPacket* Create();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1044</x>
+      <y>729</y>
+      <w>27</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1188</x>
+      <y>747</y>
+      <w>180</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>180.0;10.0;180.0;140.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1251</x>
+      <y>576</y>
+      <w>198</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>/AbstractPacket/
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1044</x>
+      <y>351</y>
+      <w>27</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>954</x>
+      <y>333</y>
+      <w>189</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>/std::shared_from_this/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>495</x>
+      <y>702</y>
+      <w>288</w>
+      <h>234</h>
+    </coordinates>
+    <panel_attributes>Pinger
+--
+Pinger();
+
+//The amount of milliseconds needed to go by without receiving a
+//packet before pinging
+static const int PING_TIME_MILLIS = 1000;
+//The amount of milliseconds needed to go by without receiving a
+//packet before pinging
+static const int CLOSE_TIME_MILLIS = PING_TIME * 2;
+//Sets lastReceiveTime to current time
+virtual void ResetPingTime();
+//Returns the next time a ping will have to be performed
+//PING_TIME_MILLIS + lastReceiveTime - clock()
+virtual int GetNextPingTimeMillis();
+//Accessor for destID
+virtual int GetDestID();
+
+protected:
+//The last time a packet was received
+clock_t lastReceiveTime;
+//The nodeId of the client
+const uint8_t destID;
+//Prevents lastReceiveTime from being modified at the same time
+CommMutex receiveTimeMutex;
+//Prevents the sockets state from being modified (Will requre child to implement)
+CommMutex connectionStateMutex;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>585</y>
+      <w>261</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>270.0;10.0;40.0;80.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>459</x>
+      <y>522</y>
+      <w>216</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>CommsLink
+--
+//Sets the connection state of the client to closed.
+void SetClosed(uint8_t destID) = 0;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>558</x>
+      <y>486</y>
+      <w>27</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>504</x>
+      <y>36</y>
+      <w>513</w>
+      <h>234</h>
+    </coordinates>
+    <panel_attributes>Design 2
+--
++Much simpler design
++pingers can be sorted by their Ping time, so we don't have to iterate over the entire list
+
+-More space is used
+-More difficult to set the state of the connection</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
