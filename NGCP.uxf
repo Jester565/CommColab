@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.2">
-  <zoom_level>10</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>220</x>
-      <y>0</y>
-      <w>320</w>
-      <h>460</h>
+      <x>144</x>
+      <y>536</y>
+      <w>256</w>
+      <h>368</h>
     </coordinates>
     <panel_attributes>//Abstract class to be used for determining what data should be sent and what callback to use when received.  Has a unique key to distinguish it from other packets.
 AbstractPacket
@@ -57,10 +57,10 @@ ABSPACKET</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>40</x>
-      <y>1700</y>
-      <w>310</w>
-      <h>510</h>
+      <x>0</x>
+      <y>1896</y>
+      <w>248</w>
+      <h>408</h>
     </coordinates>
     <panel_attributes>api.h
 --
@@ -114,10 +114,10 @@ COMM_IMPORT
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>1360</y>
-      <w>190</w>
-      <h>250</h>
+      <x>48</x>
+      <y>1624</y>
+      <w>152</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>arch.h
 --
@@ -142,10 +142,10 @@ COM_OS_BSD</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>180</x>
-      <y>1600</y>
-      <w>30</w>
-      <h>120</h>
+      <x>112</x>
+      <y>1816</y>
+      <w>24</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
@@ -153,24 +153,43 @@ COM_OS_BSD</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>570</x>
-      <y>2470</y>
-      <w>400</w>
-      <h>470</h>
+      <x>424</x>
+      <y>2512</y>
+      <w>320</w>
+      <h>304</h>
     </coordinates>
     <panel_attributes>Comms
 --
-//Will create a certain subclass of CommsLink based on the parameter conn_type and will open a socket on this machine (Address is not used).
-bool InitConnection(transport_protocol_t conn_type, const char* port, const char* address, uint32_t baudrate);</panel_attributes>
+private:
+-CommMutex send_mutex;
+-CommMutex recv_mutex;
+-CommMutex console_mutex;
+-CommConditionVariable comm_cond_var_send;
+-uint32_t rx_length;
+-CommThread comm_thread_send;
+-CommThread comm_thread_recv;
+-CommThread console_thread;
+-void CommunicationHandlerSend();
+-void CommunicationHandlerRecv();
+-CommsLink *conn_layer;
+-encryption::CommEncryptor encrypt;
+-encryption::CommDecryptor decrypt;
+-std::shared_ptr &lt;ConnectionStateManager&gt; conStateManager;
+
+public:		
++Comms(uint8_t platform_id);
++~Comms();
++bool LoadKey(char* key);
++bool LoadKeyFromFile(char*keyFileName);</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>590</x>
-      <y>1990</y>
-      <w>340</w>
-      <h>420</h>
+      <x>440</x>
+      <y>2128</y>
+      <w>272</w>
+      <h>336</h>
     </coordinates>
     <panel_attributes>//Abstract class that will allow for easy adjustments in node changing and style.
 /CommsNode/
@@ -217,10 +236,10 @@ bool InitConnection(transport_protocol_t conn_type, const char* port, const char
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>760</x>
-      <y>2400</y>
-      <w>30</w>
-      <h>90</h>
+      <x>576</x>
+      <y>2456</y>
+      <w>24</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
@@ -228,10 +247,10 @@ bool InitConnection(transport_protocol_t conn_type, const char* port, const char
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>590</x>
-      <y>1470</y>
-      <w>350</w>
-      <h>480</h>
+      <x>440</x>
+      <y>1712</y>
+      <w>280</w>
+      <h>384</h>
     </coordinates>
     <panel_attributes>PacketManager
 --
@@ -285,10 +304,10 @@ int32_t MaxSize;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>760</x>
-      <y>1940</y>
-      <w>30</w>
-      <h>70</h>
+      <x>576</x>
+      <y>2088</y>
+      <w>24</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
@@ -296,10 +315,10 @@ int32_t MaxSize;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>800</x>
-      <y>1280</y>
-      <w>310</w>
-      <h>140</h>
+      <x>608</x>
+      <y>1560</y>
+      <w>248</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>//Creates new packets of the same sub-type of the AbstractPacket that was passed in.
 PacketFactory
@@ -318,10 +337,10 @@ uint32_t id;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>770</x>
-      <y>1410</y>
-      <w>200</w>
-      <h>80</h>
+      <x>584</x>
+      <y>1664</y>
+      <w>160</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>180.0;10.0;160.0;30.0;10.0;60.0</additional_attributes>
@@ -329,10 +348,10 @@ uint32_t id;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>420</x>
-      <y>1110</y>
-      <w>320</w>
-      <h>310</h>
+      <x>304</x>
+      <y>1424</y>
+      <w>256</w>
+      <h>248</h>
     </coordinates>
     <panel_attributes>//Implementation of a hashtable for AbstractPackets and CallBacks
 /PacketTable/
@@ -369,10 +388,10 @@ bool Reserve(uint32_t newSize);</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>590</x>
-      <y>1410</y>
-      <w>190</w>
-      <h>80</h>
+      <x>440</x>
+      <y>1664</y>
+      <w>152</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;30.0;30.0;170.0;60.0</additional_attributes>
@@ -380,10 +399,10 @@ bool Reserve(uint32_t newSize);</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>2280</y>
-      <w>660</w>
-      <h>280</h>
+      <x>736</x>
+      <y>2360</y>
+      <w>528</w>
+      <h>224</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>640.0;60.0;600.0;10.0;110.0;10.0;10.0;260.0</additional_attributes>
@@ -391,10 +410,10 @@ bool Reserve(uint32_t newSize);</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1560</x>
-      <y>2340</y>
-      <w>390</w>
-      <h>360</h>
+      <x>1216</x>
+      <y>2408</y>
+      <w>312</w>
+      <h>288</h>
     </coordinates>
     <panel_attributes>/CommsLink/
 --
@@ -413,10 +432,10 @@ bool InitConnection(const char* port = NULL, const char* address, uint32_t baudr
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1160</x>
-      <y>2920</y>
-      <w>330</w>
-      <h>340</h>
+      <x>896</x>
+      <y>2872</y>
+      <w>264</w>
+      <h>272</h>
     </coordinates>
     <panel_attributes>UDPLink
 --
@@ -454,10 +473,10 @@ std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1480</x>
-      <y>2690</y>
-      <w>120</w>
-      <h>280</h>
+      <x>1152</x>
+      <y>2688</y>
+      <w>96</w>
+      <h>224</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>100.0;10.0;60.0;200.0;10.0;260.0</additional_attributes>
@@ -465,10 +484,10 @@ std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1580</x>
-      <y>3290</y>
-      <w>350</w>
-      <h>440</h>
+      <x>1232</x>
+      <y>3168</y>
+      <w>280</w>
+      <h>352</h>
     </coordinates>
     <panel_attributes>SerialLink
 --</panel_attributes>
@@ -477,10 +496,10 @@ std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2050</x>
-      <y>2910</y>
-      <w>360</w>
-      <h>440</h>
+      <x>1608</x>
+      <y>2864</y>
+      <w>288</w>
+      <h>352</h>
     </coordinates>
     <panel_attributes>XBeeLink
 --</panel_attributes>
@@ -489,10 +508,10 @@ std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1500</x>
-      <y>2690</y>
-      <w>120</w>
-      <h>620</h>
+      <x>1168</x>
+      <y>2688</y>
+      <w>96</w>
+      <h>496</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>100.0;10.0;50.0;220.0;10.0;290.0;10.0;540.0;90.0;600.0</additional_attributes>
@@ -500,10 +519,10 @@ std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1940</x>
-      <y>2640</y>
-      <w>310</w>
-      <h>290</h>
+      <x>1520</x>
+      <y>2648</y>
+      <w>248</w>
+      <h>232</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;290.0;270.0</additional_attributes>
@@ -511,10 +530,10 @@ std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1740</x>
-      <y>2200</y>
-      <w>30</w>
-      <h>160</h>
+      <x>1360</x>
+      <y>2296</y>
+      <w>24</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
@@ -522,10 +541,10 @@ std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1650</x>
-      <y>2130</y>
-      <w>210</w>
-      <h>80</h>
+      <x>1288</x>
+      <y>2240</y>
+      <w>168</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>transport_protocol_t
 --</panel_attributes>
@@ -534,10 +553,10 @@ std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1310</x>
-      <y>2890</y>
-      <w>30</w>
-      <h>50</h>
+      <x>1016</x>
+      <y>2848</y>
+      <w>24</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
@@ -545,10 +564,10 @@ std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1160</x>
-      <y>2490</y>
-      <w>330</w>
-      <h>410</h>
+      <x>896</x>
+      <y>2528</y>
+      <w>264</w>
+      <h>328</h>
     </coordinates>
     <panel_attributes>UDP
 --
@@ -593,10 +612,10 @@ int slen;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1220</x>
-      <y>2310</y>
-      <w>200</w>
-      <h>160</h>
+      <x>944</x>
+      <y>2384</y>
+      <w>160</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>socket_t
 --
@@ -619,10 +638,10 @@ struct sockaddr_in socket_address;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1310</x>
-      <y>2460</y>
-      <w>30</w>
-      <h>50</h>
+      <x>1016</x>
+      <y>2504</y>
+      <w>24</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;30.0</additional_attributes>
@@ -630,10 +649,10 @@ struct sockaddr_in socket_address;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1170</x>
-      <y>1860</y>
-      <w>360</w>
-      <h>280</h>
+      <x>904</x>
+      <y>2024</y>
+      <w>288</w>
+      <h>224</h>
     </coordinates>
     <panel_attributes>AESEncryption
 --</panel_attributes>
@@ -642,10 +661,10 @@ struct sockaddr_in socket_address;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>930</x>
-      <y>2040</y>
-      <w>260</w>
-      <h>450</h>
+      <x>712</x>
+      <y>2168</y>
+      <w>208</w>
+      <h>360</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>240.0;10.0;180.0;50.0;10.0;430.0</additional_attributes>
@@ -653,10 +672,10 @@ struct sockaddr_in socket_address;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>630</x>
-      <y>160</y>
-      <w>320</w>
-      <h>290</h>
+      <x>472</x>
+      <y>664</y>
+      <w>256</w>
+      <h>232</h>
     </coordinates>
     <panel_attributes>//Stores an std::function (typedefed as CallbackFunc) that is invoked by CallFunction
 //WARNING: CallbackFunc is a typedef of std::function but takes the appropiate parameters and has the right return type
@@ -686,10 +705,10 @@ CallBackFunc callback;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>570</x>
-      <y>1050</y>
-      <w>30</w>
-      <h>80</h>
+      <x>424</x>
+      <y>1376</y>
+      <w>24</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
@@ -697,10 +716,10 @@ CallBackFunc callback;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>430</x>
-      <y>600</y>
-      <w>310</w>
-      <h>460</h>
+      <x>312</x>
+      <y>1016</y>
+      <w>248</w>
+      <h>368</h>
     </coordinates>
     <panel_attributes>PacketHashTable
 --
@@ -749,10 +768,10 @@ uint32_t tableSize;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>350</x>
-      <y>450</y>
-      <w>250</w>
-      <h>170</h>
+      <x>248</x>
+      <y>896</y>
+      <w>200</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;20.0;40.0;230.0;150.0</additional_attributes>
@@ -760,10 +779,10 @@ uint32_t tableSize;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>570</x>
-      <y>440</y>
-      <w>250</w>
-      <h>180</h>
+      <x>424</x>
+      <y>888</y>
+      <w>200</w>
+      <h>144</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>230.0;10.0;200.0;50.0;10.0;160.0</additional_attributes>
@@ -771,10 +790,10 @@ uint32_t tableSize;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1580</x>
-      <y>2870</y>
-      <w>350</w>
-      <h>390</h>
+      <x>1232</x>
+      <y>2832</y>
+      <w>280</w>
+      <h>312</h>
     </coordinates>
     <panel_attributes>Serial
 --
@@ -784,12 +803,239 @@ uint32_t tableSize;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1740</x>
-      <y>3250</y>
-      <w>30</w>
-      <h>60</h>
+      <x>1360</x>
+      <y>3136</y>
+      <w>24</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1784</x>
+      <y>56</y>
+      <w>400</w>
+      <h>424</h>
+    </coordinates>
+    <panel_attributes>marshal
+(non class)
+namespace comnet::serilization
+--
++typedef uint8_t* marshal_t;
++typedef char* string_t;	
+--
++uint32_t PackString(string_t data, uint8_t len, marshal_t input);	
++uint32_t UnpackString(string_t data, uint8_t len, marshal_t input);	
++uint32_t PackWideString(std::wstring  &amp;data, uint8_t len, marshal_t input);	
++uint32_t UnpackWideString(std::wstring &amp;data, uint8_t len, marshal_t input);	
++uint32_t PackByte(uint8_t data, marshal_t input);	
++uint8_t UnpackByte(marshal_t input);	
++uint32_t PackUint16(uint16_t data, marshal_t input);	
++uint16_t UnpackUint16(marshal_t input);	
++uint32_t PackInt16(int16_t data, marshal_t input);	
++int16_t UnpackInt16(marshal_t input);	
++uint32_t PackUint32(uint32_t data, marshal_t input);	
++uint32_t UnpackUint32(marshal_t input);	
++uint32_t PackInt32(int32_t data, marshal_t input);	
++int32_t UnpackInt32(marshal_t input);	
++uint32_t PackUint64(uint64_t data, marshal_t input);	
++uint64_t UnpackUint64(marshal_t input);	
++uint32_t PackInt64(int64_t data, marshal_t input);	
++int64_t UnpackInt64(marshal_t input);	
++uint32_t PackReal32(real32_t data, marshal_t input);	
++real32_t UnpackReal32(marshal_t input);	
++uint32_t PackReal64(real64_t data, marshal_t input);	
++real64_t UnpackReal64(marshal_t input);
+--
++template &lt;typename T&gt; void SwapEndian(T&amp; pX)
++template &lt;typename T&gt; T SwapEndianCopy(T pX)
++template &lt;typename T&gt; int16_t PackGeneric(T data, marshal_t input)	
++template &lt;typename T&gt; T UnpackGeneric(marshal_t input)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1784</x>
+      <y>0</y>
+      <w>104</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>serialization folder
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1784</x>
+      <y>528</y>
+      <w>400</w>
+      <h>656</h>
+    </coordinates>
+    <panel_attributes>ObjectStream
+namespace comnet::serilization
+--
+private:
+-marshal_t stream_buffer;
+-int32_t curr_pos;
+-void PrintErrorUnderFlow();
+-void PrintErrorOverFlow();
+--
+public:
++Header header_packet;
++ObjectStream();
++ObjectStream(ObjectStream&amp;&amp; obj);
++ObjectStream&amp; operator=(ObjectStream&amp;&amp; obj);  
++~ObjectStream();
++int32_t GetPosition() const { return curr_pos; }
++int32_t GetSize() const { return curr_pos; }
++marshal_t GetBuffer() const { return stream_buffer; }
+  
+  Header&amp; GetHeaderPacket() { return header_packet; } 
+//setBuffer will take a pointer to an array of char and its len to become the new stream of data
++void SetBuffer(const char* buffer, int len);
++void SetHeader(Header&amp; header);  
++void SerializeHeader();
++Header DeserializeHeader();
+  
+//Overloaded input stream operators to put variables into the object stream
++ObjectStream&amp; operator&lt;&lt;(string_t&amp; data);
++ObjectStream&amp; operator&lt;&lt;(std::wstring&amp; data);
++ObjectStream&amp; operator&lt;&lt;(std::string&amp; data);
++ObjectStream&amp; operator&lt;&lt;(uint8_t&amp; data);  
++ObjectStream&amp; operator&lt;&lt;(int8_t&amp; data);
++ObjectStream&amp; operator&lt;&lt;(uint16_t&amp; data);
++ObjectStream&amp; operator&lt;&lt;(int16_t&amp; data);  
++ObjectStream&amp; operator&lt;&lt;(int32_t&amp; data);
++ObjectStream&amp; operator&lt;&lt;(uint32_t&amp; data);
++ObjectStream&amp; operator&lt;&lt;(int64_t&amp; data);
++ObjectStream&amp; operator&lt;&lt;(uint64_t&amp; data);
++ObjectStream&amp; operator&lt;&lt;(real32_t&amp; data);
++ObjectStream&amp; operator&lt;&lt;(real64_t&amp; data);  
+
+//Overloaded output stream operators to output variables to a variable from the object stream
+//string_t (char*) must use malloc when inputing data into new c-string variable
++ObjectStream&amp; operator&gt;&gt;(string_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::wstring&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::string&amp; data);
++ObjectStream&amp; operator&gt;&gt;(uint8_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(int8_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(uint16_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(int16_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(uint32_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(int32_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(uint64_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(int64_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(real32_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(real64_t&amp; data); 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1216</x>
+      <y>56</y>
+      <w>400</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>Header
+namespace comnet
+--
+public:
++uint8_t dest_id;
++uint8_t source_id;
++uint16_t msg_len;
++uint16_t msg_id;
++uint8_t source_time_arr[4];
++uint8_t iv[KEY_LENGTH];
+
++int32_t GetSourceTime() const;
++void SetSourceTime(int32_t source_time);
++static uint32_t Serialize(Header&amp; header, uint8_t* buffer, uint32_t offset);
++static uint32_t Deserialize(Header&amp; header, uint8_t* buffer, uint32_t offset);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>96</x>
+      <y>312</y>
+      <w>184</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>Ping
+namespace comnet
+--
+public:
++Ping();
++Ping(std::string num);
++~Ping() { }
++void Pack(ObjectStream&amp; obj);
++void Unpack(ObjectStream&amp; obj);
++AbstractPacket* Create();
+
++std::string test;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>296</x>
+      <y>312</y>
+      <w>184</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>Pong
+namespace comnet
+--
+public:
++Pong(char letter);
++~Pong();
++void Pack(ObjectStream&amp; obj);
++void Unpack(ObjectStream&amp; obj);
++ AbstractPacket* Create();
+
++char letter;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1216</x>
+      <y>8</y>
+      <w>112</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>main folder
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>224</x>
+      <y>456</y>
+      <w>24</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>328</x>
+      <y>456</y>
+      <w>24</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
