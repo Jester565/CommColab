@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.2">
-  <zoom_level>4</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>612</x>
-      <y>328</y>
-      <w>128</w>
-      <h>184</h>
+      <x>1224</x>
+      <y>1152</y>
+      <w>256</w>
+      <h>368</h>
     </coordinates>
     <panel_attributes>//Abstract class to be used for determining what data should be sent and what callback to use when received.  Has a unique key to distinguish it from other packets.
 AbstractPacket
@@ -58,9 +58,9 @@ ABSPACKET</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>848</y>
-      <w>124</w>
-      <h>204</h>
+      <y>2192</y>
+      <w>248</w>
+      <h>408</h>
     </coordinates>
     <panel_attributes>api.h
 --
@@ -114,10 +114,10 @@ COMM_IMPORT
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>24</x>
-      <y>736</y>
-      <w>76</w>
-      <h>100</h>
+      <x>48</x>
+      <y>1968</y>
+      <w>152</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>arch.h
 --
@@ -142,10 +142,10 @@ COM_OS_BSD</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>56</x>
-      <y>832</y>
-      <w>12</w>
-      <h>24</h>
+      <x>112</x>
+      <y>2160</y>
+      <w>24</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
@@ -153,10 +153,10 @@ COM_OS_BSD</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>744</x>
-      <y>1256</y>
-      <w>164</w>
-      <h>152</h>
+      <x>1488</x>
+      <y>3008</y>
+      <w>328</w>
+      <h>304</h>
     </coordinates>
     <panel_attributes>Comms
 --
@@ -186,10 +186,10 @@ public:
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>728</x>
-      <y>1052</y>
-      <w>272</w>
-      <h>168</h>
+      <x>1456</x>
+      <y>2600</y>
+      <w>544</w>
+      <h>336</h>
     </coordinates>
     <panel_attributes>//Abstract class that will allow for easy adjustments in node changing and style.
 /CommsNode/
@@ -236,10 +236,10 @@ bool InitConnection(transport_protocol_t conn_type, const char* port, const char
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>760</x>
-      <y>844</y>
-      <w>164</w>
-      <h>192</h>
+      <x>1520</x>
+      <y>2184</y>
+      <w>328</w>
+      <h>384</h>
     </coordinates>
     <panel_attributes>PacketManager
 --
@@ -293,10 +293,10 @@ int32_t MaxSize;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>804</x>
-      <y>768</y>
-      <w>148</w>
-      <h>56</h>
+      <x>1608</x>
+      <y>2032</y>
+      <w>296</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>//Creates new packets of the same sub-type of the AbstractPacket that was passed in.
 PacketFactory
@@ -315,10 +315,10 @@ uint32_t id;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>604</y>
-      <w>164</w>
-      <h>124</h>
+      <x>1800</x>
+      <y>1704</y>
+      <w>328</w>
+      <h>248</h>
     </coordinates>
     <panel_attributes>//Implementation of a hashtable for AbstractPackets and CallBacks
 /PacketTable/
@@ -355,10 +355,10 @@ bool Reserve(uint32_t newSize);</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1144</x>
-      <y>1244</y>
-      <w>220</w>
-      <h>92</h>
+      <x>2288</x>
+      <y>2984</y>
+      <w>440</w>
+      <h>184</h>
     </coordinates>
     <panel_attributes>/CommsLink/
 --
@@ -382,10 +382,10 @@ transport_protocol_t protocol;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>876</x>
-      <y>1440</y>
-      <w>204</w>
-      <h>136</h>
+      <x>1752</x>
+      <y>3376</y>
+      <w>408</w>
+      <h>272</h>
     </coordinates>
     <panel_attributes>UDPLink
 --
@@ -417,10 +417,10 @@ std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1088</x>
-      <y>1584</y>
-      <w>216</w>
-      <h>96</h>
+      <x>2176</x>
+      <y>3664</y>
+      <w>432</w>
+      <h>192</h>
     </coordinates>
     <panel_attributes>SerialLink
 --
@@ -442,10 +442,10 @@ LIst &lt;SerialConn*&gt;* connections;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1308</x>
-      <y>1468</y>
-      <w>144</w>
-      <h>176</h>
+      <x>2616</x>
+      <y>3432</y>
+      <w>288</w>
+      <h>352</h>
     </coordinates>
     <panel_attributes>XBeeLink
 --</panel_attributes>
@@ -454,10 +454,10 @@ LIst &lt;SerialConn*&gt;* connections;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1192</x>
-      <y>1184</y>
-      <w>84</w>
-      <h>32</h>
+      <x>2384</x>
+      <y>2864</y>
+      <w>168</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>transport_protocol_t
 --</panel_attributes>
@@ -466,10 +466,10 @@ LIst &lt;SerialConn*&gt;* connections;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>924</x>
-      <y>1288</y>
-      <w>212</w>
-      <h>124</h>
+      <x>1848</x>
+      <y>3072</y>
+      <w>424</w>
+      <h>248</h>
     </coordinates>
     <panel_attributes>UDP
 --
@@ -507,10 +507,10 @@ int slen;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1016</x>
-      <y>1228</y>
-      <w>96</w>
-      <h>48</h>
+      <x>2032</x>
+      <y>2952</y>
+      <w>192</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>socket_t
 --
@@ -529,10 +529,10 @@ struct sockaddr_in socket_address;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>980</x>
-      <y>760</y>
-      <w>180</w>
-      <h>140</h>
+      <x>1960</x>
+      <y>2016</y>
+      <w>360</w>
+      <h>280</h>
     </coordinates>
     <panel_attributes>CommEncryptor 
 --
@@ -561,10 +561,10 @@ struct sockaddr_in socket_address;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>752</x>
-      <y>404</y>
-      <w>236</w>
-      <h>108</h>
+      <x>1504</x>
+      <y>1304</y>
+      <w>472</w>
+      <h>216</h>
     </coordinates>
     <panel_attributes>//Stores an std::function (typedefed as CallbackFunc) that is invoked by CallFunction
 //WARNING: CallbackFunc is a typedef of std::function but takes the appropiate parameters and has the right return type
@@ -594,10 +594,10 @@ CallBackFunc callback;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>716</x>
-      <y>556</y>
-      <w>164</w>
-      <h>184</h>
+      <x>1432</x>
+      <y>1608</y>
+      <w>328</w>
+      <h>368</h>
     </coordinates>
     <panel_attributes>PacketHashTable
 --
@@ -646,10 +646,10 @@ uint32_t tableSize;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1104</x>
-      <y>1440</y>
-      <w>200</w>
-      <h>124</h>
+      <x>2208</x>
+      <y>3376</y>
+      <w>400</w>
+      <h>248</h>
     </coordinates>
     <panel_attributes>Serial
 --
@@ -676,10 +676,10 @@ uint8_t buffer_send[];</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1416</x>
-      <y>16</y>
-      <w>200</w>
-      <h>204</h>
+      <x>2824</x>
+      <y>24</y>
+      <w>400</w>
+      <h>408</h>
     </coordinates>
     <panel_attributes>marshal
 (non class)
@@ -719,10 +719,10 @@ uint8_t buffer_send[];</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1416</x>
-      <y>228</y>
-      <w>152</w>
-      <h>308</h>
+      <x>2824</x>
+      <y>456</y>
+      <w>384</w>
+      <h>1456</h>
     </coordinates>
     <panel_attributes>ObjectStream
 --
@@ -758,6 +758,7 @@ uint8_t buffer_send[];</panel_attributes>
 +ObjectStream&amp; operator&lt;&lt;(uint64_t&amp; data);
 +ObjectStream&amp; operator&lt;&lt;(real32_t&amp; data);
 +ObjectStream&amp; operator&lt;&lt;(real64_t&amp; data);  
++ObjectStream&amp; operator&lt;&lt;(ObjSerializable&amp; data);
 
 //Overloaded output stream operators to output variables to a variable from the object stream
 //string_t (char*) must use malloc when inputing data into new c-string variable
@@ -773,17 +774,83 @@ uint8_t buffer_send[];</panel_attributes>
 +ObjectStream&amp; operator&gt;&gt;(uint64_t&amp; data);
 +ObjectStream&amp; operator&gt;&gt;(int64_t&amp; data);
 +ObjectStream&amp; operator&gt;&gt;(real32_t&amp; data);
-+ObjectStream&amp; operator&gt;&gt;(real64_t&amp; data); 
-</panel_attributes>
++ObjectStream&amp; operator&gt;&gt;(real64_t&amp; data);
++ObjectStream&amp; operator&gt;&gt;(ObjSerializable&amp; data);
+
++ObjectStream&amp; operater&lt;&lt;(const std::vector&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::vector&lt;T&gt;&amp; data);
++ObjectStream&amp; operater&lt;&lt;(const std::vector&lt;T*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::vector&lt;T*&gt;&amp; data);
+
++ObjectStream&amp; operator&lt;&lt;(const std::list&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::list&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::list&lt;T*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::list&lt;T*&gt;&amp; data);
+
++ObjectStream&amp; operator&lt;&lt;(const std::set&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::set&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::set&lt;T*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::set&lt;T*&gt;&amp; data);
+
++ObjectStream&amp; operator&lt;&lt;(const std::multiset&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::multiset&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::multiset&lt;T*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::multiset&lt;T*&gt;&amp; data);
+
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_set&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_set&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_set&lt;T*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_set&lt;T*&gt;&amp; data);
+
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_multiset&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_multiset&lt;T&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_multiset&lt;T*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_multiset&lt;T*&gt;&amp; data);
+
++ObjectStream&amp; operator&lt;&lt;(const std::map&lt;T,D&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::map&lt;T,D&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::map&lt;T*,D&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::map&lt;T*,D&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::map&lt;T,D*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::map&lt;T,D*&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::map&lt;T*,D*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::map&lt;T*,D*&gt;&amp; data);
+
++ObjectStream&amp; operator&lt;&lt;(const std::multimap&lt;T,D&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::multimap&lt;T,D&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::multimap&lt;T,D*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::multimap&lt;T,D*&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::multimap&lt;T*,D&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::multimap&lt;T*,D&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::multimap&lt;T*,D*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::multimap&lt;T*,D*&gt;&amp; data);
+
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_map&lt;T,D&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_map&lt;T,D&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_map&lt;T*,D&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_map&lt;T*,D&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_map&lt;T,D*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_map&lt;T,D*&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_map&lt;T*,D*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_map&lt;T*,D*&gt;&amp; data);
+
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_multimap&lt;T,D&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_multimap&lt;T,D&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_multimap&lt;T,D*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_multimap&lt;T,D*&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_multimap&lt;T*,D&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_multimap&lt;T*,D&gt;&amp; data);
++ObjectStream&amp; operator&lt;&lt;(const std::unordered_multimap&lt;T*,D*&gt;&amp; data);
++ObjectStream&amp; operator&gt;&gt;(std::unordered_multimap&lt;T*,D*&gt;&amp; data);</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1084</x>
-      <y>284</y>
-      <w>200</w>
-      <h>80</h>
+      <x>2168</x>
+      <y>1064</y>
+      <w>400</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>Header
 --
@@ -803,10 +870,10 @@ uint8_t buffer_send[];</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>588</x>
-      <y>232</y>
-      <w>92</w>
-      <h>76</h>
+      <x>1176</x>
+      <y>960</y>
+      <w>184</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Ping
 --
@@ -825,10 +892,10 @@ uint8_t buffer_send[];</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>688</x>
-      <y>232</y>
-      <w>92</w>
-      <h>76</h>
+      <x>1376</x>
+      <y>960</y>
+      <w>184</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>Pong
 --
@@ -845,10 +912,10 @@ uint8_t buffer_send[];</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1364</x>
-      <y>760</y>
-      <w>216</w>
-      <h>76</h>
+      <x>2728</x>
+      <y>2016</y>
+      <w>432</w>
+      <h>152</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Interface&gt;&gt;
 EncryptionInterface 
@@ -867,10 +934,10 @@ public:
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1168</x>
-      <y>760</y>
-      <w>176</w>
-      <h>120</h>
+      <x>2336</x>
+      <y>2016</y>
+      <w>352</w>
+      <h>240</h>
     </coordinates>
     <panel_attributes>CommDecryptor
 --
@@ -897,10 +964,10 @@ public:
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1400</x>
+      <x>2800</x>
       <y>0</y>
-      <w>224</w>
-      <h>548</h>
+      <w>736</w>
+      <h>1944</h>
     </coordinates>
     <panel_attributes>Serilization
 --
@@ -913,10 +980,10 @@ bg=orange
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>972</x>
-      <y>736</y>
-      <w>628</w>
-      <h>300</h>
+      <x>1944</x>
+      <y>1968</y>
+      <w>1256</w>
+      <h>600</h>
     </coordinates>
     <panel_attributes>Encryption
 --
@@ -926,10 +993,10 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1168</x>
-      <y>928</y>
-      <w>176</w>
-      <h>88</h>
+      <x>2336</x>
+      <y>2352</y>
+      <w>352</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>AesEncryption
 --
@@ -951,10 +1018,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1048</x>
-      <y>896</y>
-      <w>144</w>
-      <h>40</h>
+      <x>2096</x>
+      <y>2288</y>
+      <w>288</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>340.0;80.0;340.0;30.0;10.0;30.0;10.0;10.0</additional_attributes>
@@ -962,10 +1029,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1240</x>
-      <y>876</y>
-      <w>12</w>
-      <h>60</h>
+      <x>2480</x>
+      <y>2248</y>
+      <w>24</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
@@ -973,10 +1040,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1340</x>
-      <y>832</y>
-      <w>56</w>
-      <h>120</h>
+      <x>2680</x>
+      <y>2160</y>
+      <w>112</w>
+      <h>240</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>120.0;10.0;120.0;280.0;10.0;280.0</additional_attributes>
@@ -984,10 +1051,10 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>984</x>
-      <y>928</y>
-      <w>128</w>
-      <h>56</h>
+      <x>1968</x>
+      <y>2352</y>
+      <w>256</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>CommRandom
 --
@@ -1005,10 +1072,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1108</x>
-      <y>960</y>
-      <w>68</w>
-      <h>16</h>
+      <x>2216</x>
+      <y>2416</y>
+      <w>136</w>
+      <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;uses&gt;&gt;</panel_attributes>
@@ -1017,10 +1084,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>904</x>
-      <y>1012</y>
-      <w>316</w>
-      <h>256</h>
+      <x>1808</x>
+      <y>2520</y>
+      <w>632</w>
+      <h>512</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;620.0;280.0;530.0;280.0;120.0;770.0;120.0;770.0;10.0</additional_attributes>
@@ -1028,10 +1095,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>904</x>
-      <y>1156</y>
-      <w>284</w>
-      <h>112</h>
+      <x>1808</x>
+      <y>2808</y>
+      <w>568</w>
+      <h>224</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;260.0;280.0;170.0;280.0;10.0;630.0;10.0;690.0;220.0</additional_attributes>
@@ -1039,10 +1106,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>780</x>
-      <y>736</y>
-      <w>12</w>
-      <h>116</h>
+      <x>1560</x>
+      <y>1968</y>
+      <w>24</w>
+      <h>232</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
@@ -1050,10 +1117,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>876</x>
-      <y>660</y>
-      <w>32</w>
-      <h>12</h>
+      <x>1752</x>
+      <y>1816</y>
+      <w>64</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>60.0;10.0;10.0;10.0</additional_attributes>
@@ -1061,10 +1128,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>740</x>
-      <y>508</y>
-      <w>44</w>
-      <h>56</h>
+      <x>1480</x>
+      <y>1512</y>
+      <w>88</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;120.0;10.0;60.0;90.0;10.0</additional_attributes>
@@ -1072,10 +1139,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>712</x>
-      <y>508</y>
-      <w>40</w>
-      <h>56</h>
+      <x>1424</x>
+      <y>1512</y>
+      <w>80</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>80.0;120.0;80.0;60.0;10.0;10.0</additional_attributes>
@@ -1083,10 +1150,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>644</x>
-      <y>304</y>
-      <w>12</w>
-      <h>32</h>
+      <x>1288</x>
+      <y>1104</y>
+      <w>24</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
@@ -1094,10 +1161,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>704</x>
-      <y>304</y>
-      <w>12</w>
-      <h>32</h>
+      <x>1408</x>
+      <y>1104</y>
+      <w>24</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
@@ -1105,10 +1172,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>836</x>
-      <y>1032</y>
-      <w>12</w>
-      <h>28</h>
+      <x>1672</x>
+      <y>2560</y>
+      <w>24</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
@@ -1116,10 +1183,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
-      <y>1216</y>
-      <w>12</w>
-      <h>48</h>
+      <x>1640</x>
+      <y>2928</y>
+      <w>24</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
@@ -1127,10 +1194,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1228</x>
-      <y>1212</y>
-      <w>28</w>
-      <h>40</h>
+      <x>2456</x>
+      <y>2920</y>
+      <w>56</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;uses&gt;&gt;</panel_attributes>
@@ -1139,10 +1206,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1360</x>
-      <y>1332</y>
-      <w>116</w>
-      <h>144</h>
+      <x>2720</x>
+      <y>3160</y>
+      <w>232</w>
+      <h>288</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;270.0;40.0;270.0;260.0;220.0;340.0</additional_attributes>
@@ -1150,10 +1217,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1092</x>
-      <y>1332</y>
-      <w>80</w>
-      <h>260</h>
+      <x>2184</x>
+      <y>3160</y>
+      <w>160</w>
+      <h>520</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>180.0;10.0;130.0;80.0;130.0;240.0;10.0;260.0;10.0;600.0;180.0;630.0</additional_attributes>
@@ -1161,10 +1228,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1076</x>
-      <y>1332</y>
-      <w>96</w>
-      <h>136</h>
+      <x>2152</x>
+      <y>3160</y>
+      <w>192</w>
+      <h>272</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>220.0;10.0;170.0;80.0;170.0;240.0;50.0;260.0;10.0;320.0</additional_attributes>
@@ -1172,10 +1239,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>972</x>
-      <y>1408</y>
-      <w>12</w>
-      <h>40</h>
+      <x>1944</x>
+      <y>3312</y>
+      <w>24</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
@@ -1183,10 +1250,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1060</x>
-      <y>1272</y>
-      <w>12</w>
-      <h>24</h>
+      <x>2120</x>
+      <y>3040</y>
+      <w>24</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -1194,10 +1261,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1228</x>
-      <y>1560</y>
-      <w>12</w>
-      <h>32</h>
+      <x>2456</x>
+      <y>3616</y>
+      <w>24</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
@@ -1205,10 +1272,10 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>864</x>
-      <y>820</y>
-      <w>12</w>
-      <h>32</h>
+      <x>1728</x>
+      <y>2136</y>
+      <w>24</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
@@ -1216,10 +1283,10 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>440</x>
-      <y>832</y>
-      <w>232</w>
-      <h>324</h>
+      <x>880</x>
+      <y>2160</y>
+      <w>464</w>
+      <h>648</h>
     </coordinates>
     <panel_attributes>ConnectionStateManager
 --
@@ -1277,10 +1344,10 @@ Comms* owner'</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>200</x>
-      <y>832</y>
-      <w>216</w>
-      <h>212</h>
+      <x>400</x>
+      <y>2160</y>
+      <w>432</w>
+      <h>424</h>
     </coordinates>
     <panel_attributes>TimeSyncManager
 --
@@ -1320,10 +1387,10 @@ Comms* owner;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>412</x>
-      <y>936</y>
-      <w>36</w>
-      <h>12</h>
+      <x>824</x>
+      <y>2368</y>
+      <w>72</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
@@ -1331,10 +1398,10 @@ Comms* owner;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>464</x>
-      <y>1176</y>
-      <w>184</w>
-      <h>392</h>
+      <x>928</x>
+      <y>2848</y>
+      <w>368</w>
+      <h>784</h>
     </coordinates>
     <panel_attributes>ConnectionState
 --
@@ -1403,10 +1470,10 @@ int16_t ping;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>548</x>
-      <y>1152</y>
-      <w>12</w>
-      <h>32</h>
+      <x>1096</x>
+      <y>2800</y>
+      <w>24</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
@@ -1414,10 +1481,10 @@ int16_t ping;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>484</x>
-      <y>796</y>
-      <w>12</w>
-      <h>44</h>
+      <x>968</x>
+      <y>2088</y>
+      <w>24</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
@@ -1425,10 +1492,10 @@ int16_t ping;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>428</x>
-      <y>760</y>
-      <w>132</w>
-      <h>40</h>
+      <x>856</x>
+      <y>2016</y>
+      <w>264</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>CheckConnectRequest
 --
@@ -1441,10 +1508,10 @@ comnet::AbstractPacket* Create();</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
-      <y>796</y>
-      <w>12</w>
-      <h>44</h>
+      <x>1200</x>
+      <y>2088</y>
+      <w>24</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
@@ -1452,10 +1519,10 @@ comnet::AbstractPacket* Create();</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>564</x>
-      <y>760</y>
-      <w>132</w>
-      <h>40</h>
+      <x>1128</x>
+      <y>2016</y>
+      <w>264</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>CheckConnectReply
 --
@@ -1468,10 +1535,10 @@ comnet::AbstractPacket* Create();</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>612</x>
-      <y>508</y>
-      <w>24</w>
-      <h>260</h>
+      <x>1224</x>
+      <y>1512</y>
+      <w>48</w>
+      <h>520</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;520.0;40.0;520.0;40.0;630.0</additional_attributes>
@@ -1479,10 +1546,10 @@ comnet::AbstractPacket* Create();</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>156</x>
-      <y>760</y>
-      <w>132</w>
-      <h>48</h>
+      <x>312</x>
+      <y>2016</y>
+      <w>264</w>
+      <h>96</h>
     </coordinates>
     <panel_attributes>TimeSyncRequest
 --
@@ -1497,10 +1564,10 @@ int64_t unixHighResTimeDif;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>292</x>
-      <y>760</y>
-      <w>132</w>
-      <h>52</h>
+      <x>584</x>
+      <y>2016</y>
+      <w>264</w>
+      <h>104</h>
     </coordinates>
     <panel_attributes>TimeSyncReply
 --
@@ -1516,10 +1583,10 @@ int64_t unixTimeHighResTimeDif;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>484</x>
-      <y>508</y>
-      <w>140</w>
-      <h>260</h>
+      <x>968</x>
+      <y>1512</y>
+      <w>280</w>
+      <h>520</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>330.0;10.0;330.0;520.0;10.0;520.0;10.0;630.0</additional_attributes>
@@ -1527,10 +1594,10 @@ int64_t unixTimeHighResTimeDif;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>360</x>
-      <y>508</y>
-      <w>264</w>
-      <h>260</h>
+      <x>720</x>
+      <y>1512</y>
+      <w>528</w>
+      <h>520</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>640.0;10.0;640.0;520.0;10.0;520.0;10.0;630.0</additional_attributes>
@@ -1538,10 +1605,10 @@ int64_t unixTimeHighResTimeDif;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
-      <y>508</y>
-      <w>404</w>
-      <h>260</h>
+      <x>440</x>
+      <y>1512</y>
+      <w>808</w>
+      <h>520</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>990.0;10.0;990.0;520.0;10.0;520.0;10.0;630.0</additional_attributes>
@@ -1549,10 +1616,10 @@ int64_t unixTimeHighResTimeDif;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>360</x>
-      <y>808</y>
-      <w>12</w>
-      <h>32</h>
+      <x>720</x>
+      <y>2112</y>
+      <w>24</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
@@ -1560,10 +1627,10 @@ int64_t unixTimeHighResTimeDif;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>216</x>
-      <y>804</y>
-      <w>12</w>
-      <h>36</h>
+      <x>432</x>
+      <y>2104</y>
+      <w>24</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -1571,10 +1638,10 @@ int64_t unixTimeHighResTimeDif;</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>152</x>
-      <y>692</y>
-      <w>548</w>
-      <h>888</h>
+      <x>304</x>
+      <y>1880</y>
+      <w>1096</w>
+      <h>1776</h>
     </coordinates>
     <panel_attributes>ConState
 --
@@ -1585,10 +1652,10 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1476</x>
-      <y>1140</y>
-      <w>240</w>
-      <h>316</h>
+      <x>2952</x>
+      <y>2776</y>
+      <w>480</w>
+      <h>632</h>
     </coordinates>
     <panel_attributes>TCPLink
 --
@@ -1645,10 +1712,10 @@ comnet::architecture::os::CommMutex clientsMutex;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1360</x>
-      <y>1252</y>
-      <w>124</w>
-      <h>12</h>
+      <x>2720</x>
+      <y>3000</y>
+      <w>248</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;290.0;10.0</additional_attributes>
@@ -1656,10 +1723,10 @@ comnet::architecture::os::CommMutex clientsMutex;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1492</x>
-      <y>1040</y>
-      <w>208</w>
-      <h>88</h>
+      <x>2984</x>
+      <y>2576</y>
+      <w>416</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>TCPHolder
 --
@@ -1680,10 +1747,10 @@ uint8_t destID;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1592</x>
-      <y>1124</y>
-      <w>12</w>
-      <h>24</h>
+      <x>3184</x>
+      <y>2744</y>
+      <w>24</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
@@ -1691,10 +1758,10 @@ uint8_t destID;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1768</x>
-      <y>1220</y>
-      <w>324</w>
-      <h>124</h>
+      <x>3536</x>
+      <y>2936</y>
+      <w>648</w>
+      <h>248</h>
     </coordinates>
     <panel_attributes>TcpSocket
 --
@@ -1723,10 +1790,10 @@ CommSocket* CreateTcpSocket();</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1772</x>
-      <y>1136</y>
-      <w>320</w>
-      <h>68</h>
+      <x>3544</x>
+      <y>2768</y>
+      <w>640</w>
+      <h>136</h>
     </coordinates>
     <panel_attributes>/CommSocket/
 --
@@ -1749,10 +1816,10 @@ CommSocket* CreateUdpSocket();//NOT IMPLEMENTED</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1928</x>
-      <y>1200</y>
-      <w>12</w>
-      <h>28</h>
+      <x>3856</x>
+      <y>2896</y>
+      <w>24</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
@@ -1760,10 +1827,10 @@ CommSocket* CreateUdpSocket();//NOT IMPLEMENTED</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1712</x>
-      <y>1280</y>
-      <w>64</w>
-      <h>12</h>
+      <x>3424</x>
+      <y>3056</y>
+      <w>128</w>
+      <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
@@ -1771,10 +1838,10 @@ CommSocket* CreateUdpSocket();//NOT IMPLEMENTED</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1148</x>
-      <y>1380</y>
-      <w>76</w>
-      <h>40</h>
+      <x>2296</x>
+      <y>3256</y>
+      <w>152</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>serial_info (serial_t)
 --
@@ -1787,10 +1854,10 @@ serial_h h_serial;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1180</x>
-      <y>1416</y>
-      <w>12</w>
-      <h>32</h>
+      <x>2360</x>
+      <y>3328</y>
+      <w>24</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
@@ -1798,10 +1865,10 @@ serial_h h_serial;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1228</x>
-      <y>1360</y>
-      <w>236</w>
-      <h>64</h>
+      <x>2456</x>
+      <y>3216</y>
+      <w>472</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>Parser
 --
@@ -1819,12 +1886,39 @@ uint32_t last_received_length;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1280</x>
-      <y>1420</y>
-      <w>12</w>
-      <h>28</h>
+      <x>2560</x>
+      <y>3336</y>
+      <w>24</w>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>3248</x>
+      <y>472</y>
+      <w>248</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>/ObjSerializable/
+--
++virtual void Input(ObjectStream&amp; obj) const = 0;
++virtual void Output(ObjectStream&amp; obj) = 0;
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>3200</x>
+      <y>488</y>
+      <w>64</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;uses&gt;&gt;</panel_attributes>
+    <additional_attributes>60.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
