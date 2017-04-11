@@ -4,45 +4,35 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1224</x>
-      <y>1152</y>
+      <x>1528</x>
+      <y>1464</y>
       <w>256</w>
-      <h>368</h>
+      <h>232</h>
     </coordinates>
     <panel_attributes>//Abstract class to be used for determining what data should be sent and what callback to use when received.  Has a unique key to distinguish it from other packets.
 AbstractPacket
 --
 public:
 //New instance of AbstractPacket, sets the typeID attribute to the hash of typeIDHashKey
-AbstractPacket(const char* typeIDHashKey);
-
++AbstractPacket(const char* typeIDHashKey);
 //Accessor for the id of the packet, used to set the msg_id of a header
-uint32_t GetID() const;
-
++uint32_t GetID() const;
 //Serializes the contents of the packet to the outStream parameter (pure virtual).  Called by Comm::send.
-void Pack(ObjectStream&amp; outStream) = 0;
-
++void Pack(ObjectStream&amp; outStream) = 0;
 //Parses the contents of the packet from the inStream parameter (pure virtual)
-void Unpack(ObjectStream&amp; inStream) = 0;
-
++void Unpack(ObjectStream&amp; inStream) = 0;
 //Casts AbstractPacket to Type and returns it (return by reference evil?)
-static Type&amp; GetValue(AbstractPacket&amp; packet);
-
++static Type&amp; GetValue(AbstractPacket&amp; packet);
 //Returns a new instance of some child of AbstractPacket (pure virtual).  Used by PacketFactory.
-AbstractPacket* Create() = 0;
-
++AbstractPacket* Create() = 0;
 //Default destructor
-~AbstractPacket();
-
-private:
-//Default constructor (maybe this shouldn't exist?)
-AbstractPacket();
-
-//Accessed by getID(), set by constructor. Identification number for the packet.
-uint32_t type_id;
-
++~AbstractPacket();
 --
-
+//Default constructor (maybe this shouldn't exist?)
+-AbstractPacket();
+//Accessed by getID(), set by constructor. Identification number for the packet.
+-uint32_t type_id;
+--
 //Call from child's constructor to AbstractPacket's constructor.  Pass in the type of the child and it
 //will be converted into a const char* and be passed into AbstractPacket constructor as classname parameter.
 CHAIN_ABSPACKET(class_name)
@@ -58,7 +48,7 @@ ABSPACKET</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>2192</y>
+      <y>2200</y>
       <w>248</w>
       <h>408</h>
     </coordinates>
@@ -145,22 +135,21 @@ COM_OS_BSD</panel_attributes>
       <x>112</x>
       <y>2160</y>
       <w>24</w>
-      <h>48</h>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1488</x>
+      <x>1792</x>
       <y>3008</y>
       <w>328</w>
-      <h>304</h>
+      <h>264</h>
     </coordinates>
     <panel_attributes>Comms
 --
-private:
 -CommMutex send_mutex;
 -CommMutex recv_mutex;
 -CommMutex console_mutex;
@@ -175,8 +164,7 @@ private:
 -encryption::CommEncryptor encrypt;
 -encryption::CommDecryptor decrypt;
 -std::shared_ptr &lt;ConnectionStateManager&gt; conStateManager;
-
-public:		
+--
 +Comms(uint8_t platform_id);
 +~Comms();
 +bool LoadKey(char* key);
@@ -186,8 +174,8 @@ public:
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1456</x>
-      <y>2600</y>
+      <x>1760</x>
+      <y>2608</y>
       <w>544</w>
       <h>336</h>
     </coordinates>
@@ -236,7 +224,7 @@ bool InitConnection(transport_protocol_t conn_type, const char* port, const char
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1520</x>
+      <x>1824</x>
       <y>2184</y>
       <w>328</w>
       <h>384</h>
@@ -293,30 +281,28 @@ int32_t MaxSize;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1608</x>
-      <y>2032</y>
+      <x>1912</x>
+      <y>2072</y>
       <w>296</w>
-      <h>112</h>
+      <h>72</h>
     </coordinates>
     <panel_attributes>//Creates new packets of the same sub-type of the AbstractPacket that was passed in.
 PacketFactory
 --
 //Sets id to 1 (no idea what id is supposed to do)
-PacketFactory();
-
++PacketFactory();
 //Takes a packet and returns AbstractPacket::create() if that packet was not nullptr.
-AbstractPacket* ProduceNewPacket(AbstractPacket* ref);
-
-private:
++AbstractPacket* ProduceNewPacket(AbstractPacket* ref);
+--
 //No idea what this does.  Is not currently used anywher.
-uint32_t id;</panel_attributes>
+-uint32_t id;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1800</x>
-      <y>1704</y>
+      <x>2112</x>
+      <y>1688</y>
       <w>328</w>
       <h>248</h>
     </coordinates>
@@ -324,38 +310,30 @@ uint32_t id;</panel_attributes>
 /PacketTable/
 --
 //Creates an array of null pointers to Pair arrays that will be the size of the parameter
-PacketTable(uint32_t setSize);
-
++PacketTable(uint32_t setSize);
 //Creates an array of null pointers to Pair arrays that will be the size of DEFAULT_TABLE_SIZE
-PacketTable();
-
++PacketTable();
 //Deletes all the elements inside of the pairs that make up the table and then deletes the table/
-~PacketTable();
-
++~PacketTable();
 //Inserts an element into the hashtable.  Will fail if array is full.  Returns true if element was added successfully.
 //Called by PacketManager::insert
-bool Insert(const AbstractPacket* key, const Callback* callback);
-
++bool Insert(const AbstractPacket* key, const Callback* callback);
 //Gets the element at the hashed key and returns the callback, nullptr if no element exists at the key.
-Callback* GetCallback(uint32_t key);
-
++Callback* GetCallback(uint32_t key);
 //Gets the element at the hashed key and returns the AbstractPacket, nullptr if no element exists at the key.
-AbstractPacket* PacketTable::GetPacket(uint32_t key);
-
++AbstractPacket* PacketTable::GetPacket(uint32_t key);
 //Pointer to a callback
-bool Contains(Callback* call);
-
++bool Contains(Callback* call);
 //Removes the pair with the matching key from the array.  True on success, false otherwise.
-bool Remove(uint32_t key);
-
++bool Remove(uint32_t key);
 //Aquires more memory for the Pairs.  Cannot decrease the size of the memory.
-bool Reserve(uint32_t newSize);</panel_attributes>
++bool Reserve(uint32_t newSize);</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2288</x>
+      <x>2592</x>
       <y>2984</y>
       <w>440</w>
       <h>184</h>
@@ -363,26 +341,26 @@ bool Reserve(uint32_t newSize);</panel_attributes>
     <panel_attributes>/CommsLink/
 --
 //Default constructor.
-CommsLink();
++CommsLink();
 //Default destructor.
-virtual ~CommsLink();
++virtual ~CommsLink();
 
 //Opens a socket on the machine (address is not used).
-virtual bool InitConnection(const char* port, const char* address, uint32_t baudrate) = 0;
-virtual bool AddAddress(uint8_t dest_id, const char* addreses, uint16_t port) = 0;
-virtual bool RemoveAddress(uint8_t dest_id) = 0;
-virtual bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) = 0;
-virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length) = 0;
-virtual void DigestCommand(const char* cmd) = 0;
-transport_protocol_t GetPrtocol();
++virtual bool InitConnection(const char* port, const char* address, uint32_t baudrate) = 0;
++virtual bool AddAddress(uint8_t dest_id, const char* addreses, uint16_t port) = 0;
++virtual bool RemoveAddress(uint8_t dest_id) = 0;
++virtual bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) = 0;
++virtual bool Recv(uint8_t* rx_data, uint32_t* rx_length) = 0;
++virtual void DigestCommand(const char* cmd) = 0;
++transport_protocol_t GetPrtocol();
 --
-transport_protocol_t protocol;</panel_attributes>
+-transport_protocol_t protocol;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1752</x>
+      <x>2056</x>
       <y>3376</y>
       <w>408</w>
       <h>272</h>
@@ -390,59 +368,58 @@ transport_protocol_t protocol;</panel_attributes>
     <panel_attributes>UDPLink
 --
 //Sets protocol to UDP_LINK
-UDPLink();
++UDPLink();
 //Closes local
-~UDPLink();
++~UDPLink();
 //Initializes local object and binds it to the port parameter on localhost.
-bool InitConnection(const char* port, const char* address, uint16_t port) override;
++bool InitConnection(const char* port, const char* address, uint16_t port) override;
 //Initializes a udp object and adds it to clients. Returns true on successful connection.
-bool AddAddress(uint8_t dest_id, const char* address, uint16_t port) override;
++bool AddAddress(uint8_t dest_id, const char* address, uint16_t port) override;
 //Removes the client with the dest_id.  True on successful removal.
-bool RemoveAddress(uint8_t dest_id) override;
++bool RemoveAddress(uint8_t dest_id) override;
 //Sends data to the client with the dest_id.
-bool Send(uint8_t dest_id, int8_t* txData, uint32_t txLength) override;
++bool Send(uint8_t dest_id, int8_t* txData, uint32_t txLength) override;
 //Receives data from all clients.
-bool Recv(int8_t* rxData, uint32_t* rxLength) override;
++bool Recv(int8_t* rxData, uint32_t* rxLength) override;
 
 //Not implemented
-void DigestCommand(const char* cmd);
-
-private:
++void DigestCommand(const char* cmd);
+--
 //Doesn't send or receive anything. Initializes and opens the socket.
-UDP local;
+-UDP local;
 //Contains all of the clients connected to this socket.
-std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
+-std::map&lt;uint8_t, std::unique_ptr&lt;UDP&gt;&gt; clients;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2176</x>
+      <x>2480</x>
       <y>3664</y>
       <w>432</w>
       <h>192</h>
     </coordinates>
     <panel_attributes>SerialLink
 --
-SerialLink();
-~SerialLink();
++SerialLink();
++~SerialLink();
 
-bool InitConnection(const char* port, const char* address, uint32_t baudrate) override;
-bool AddAddress(uint8_t dest_id, const char* address, uint16_t port) override;
-bool RemoveAddress(uint8_t dest_id) override;
-bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) override;
-bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
++bool InitConnection(const char* port, const char* address, uint32_t baudrate) override;
++bool AddAddress(uint8_t dest_id, const char* address, uint16_t port) override;
++bool RemoveAddress(uint8_t dest_id) override;
++bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length) override;
++bool Recv(uint8_t* rx_data, uint32_t* rx_length) override;
 
-void DigestCommand(const char* cmd) override;
++void DigestCommand(const char* cmd) override;
 --
-Serial* local;
-LIst &lt;SerialConn*&gt;* connections;</panel_attributes>
+-Serial* local;
+-LIst &lt;SerialConn*&gt;* connections;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2616</x>
+      <x>2920</x>
       <y>3432</y>
       <w>288</w>
       <h>352</h>
@@ -454,7 +431,7 @@ LIst &lt;SerialConn*&gt;* connections;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2384</x>
+      <x>2688</x>
       <y>2864</y>
       <w>168</w>
       <h>64</h>
@@ -466,7 +443,7 @@ LIst &lt;SerialConn*&gt;* connections;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1848</x>
+      <x>2152</x>
       <y>3072</y>
       <w>424</w>
       <h>248</h>
@@ -474,40 +451,38 @@ LIst &lt;SerialConn*&gt;* connections;</panel_attributes>
     <panel_attributes>UDP
 --
 //Default constructor.
-UDP();
-
++UDP();
 //Move constructor.  Uses copy and swap idiom.
-UDP(UDP&amp;&amp; udp);
-
++UDP(UDP&amp;&amp; udp);
 //Default destructor.
-~UDP();
++~UDP();
 
 //Calls UdpOpen and binds the socket to the port passed in as a parameter.
-bool InitConnection(const char* port, const char* address, uint32_t baudrate);
++bool InitConnection(const char* port, const char* address, uint32_t baudrate);
 //If the socket is open, create and return a UDP object representing a client with the IP of the parameters passed in.
-std::unique_ptr&lt;UDP&gt; Connect(uint8_t dest_id, const char* address, uint16_t port);
++std::unique_ptr&lt;UDP&gt; Connect(uint8_t dest_id, const char* address, uint16_t port);
 //Sends the data array by using the sendto function in the OS API.
-bool Send(uint8_t* tx_data, uint32_t tx_length);
++bool Send(uint8_t* tx_data, uint32_t tx_length);
 //If data was received, set the rx_data array to the data that was received and return true.
-bool Recv(uint8_t* rx_data, uint32_t* rx_length);
-socket_t&amp; GetSocket();
++bool Recv(uint8_t* rx_data, uint32_t* rx_length);
++socket_t&amp; GetSocket();
 //Closes the socket if the socket is not already closed. True on success.
-bool Close();
++bool Close();
 --
 //Initializes UDP socket
-UdpOpen(int* fd);
+-UdpOpen(int* fd);
 //The socket id, set by UdpOpen.
-int fd;
+-int fd;
 //The IP address of the UDP socket.
-socket_t sockaddr;
+-socket_t sockaddr;
 //The size of sockaddr.socket_address in bytes.
-int slen;</panel_attributes>
+-int slen;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2032</x>
+      <x>2336</x>
       <y>2952</y>
       <w>192</w>
       <h>96</h>
@@ -515,21 +490,21 @@ int slen;</panel_attributes>
     <panel_attributes>socket_t
 --
 //Integer that holds the socket identication number for calls to winsock.
-SOCKET socket;
++SOCKET socket;
 //Port the socket binds to.
-PORT port;
++PORT port;
 //Holds the destination id of the UDP object.
-ID_T id;
++ID_T id;
 //Either SOCKET_OPEN, SOCKET_CLOSED, SOCKET_RESOLVING, SOCKET_CONNECTING, SOCKET_CONNECTED, SOCKET_LISTENING, SOCKET_FAILED
-socket_status_t socket_status;
++socket_status_t socket_status;
 //Holds the information necessary for calls to send and receive.
-struct sockaddr_in socket_address;</panel_attributes>
++struct sockaddr_in socket_address;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1960</x>
+      <x>2264</x>
       <y>2016</y>
       <w>360</w>
       <h>280</h>
@@ -561,122 +536,105 @@ struct sockaddr_in socket_address;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1504</x>
-      <y>1304</y>
+      <x>1840</x>
+      <y>1528</y>
       <w>472</w>
-      <h>216</h>
+      <h>136</h>
     </coordinates>
     <panel_attributes>//Stores an std::function (typedefed as CallbackFunc) that is invoked by CallFunction
 //WARNING: CallbackFunc is a typedef of std::function but takes the appropiate parameters and has the right return type
 Callback
 --
-public:
 //Initializes the CallbackFunc to a method that returns -100
-Callback();
-
++Callback();
 //Initialize the Callback and set the CallbackFunc to the parameter.  Function must take parameters: const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node
-Callback(CallbackFunc call);
-
++Callback(CallbackFunc call);
 //Default destructor
-~Callback();
++~Callback();
 
 //Set the CallbackFunc to the parameter, the function must take parameters: const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node
-void SetCallbackListener(CallbackFunc call);
-
++void SetCallbackListener(CallbackFunc call);
 //Called by Comms::CommunicationHandlerRecv and will run the method and will pass in the appropiate parameters
-error_t CallFunction(const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node);
-
-private:
++error_t CallFunction(const Header&amp; header, AbstractPacket&amp; abPacket, CommNode&amp; node);
+--
 //Remember that CallBackFunc is a typedef for std::function.  Must take the parameters (const Header&amp;, AbstractPacket&amp;, CommNode&amp;)
-CallBackFunc callback;</panel_attributes>
+-CallBackFunc callback;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1432</x>
-      <y>1608</y>
+      <x>1736</x>
+      <y>1784</y>
       <w>328</w>
-      <h>368</h>
+      <h>192</h>
     </coordinates>
     <panel_attributes>PacketHashTable
 --
 //Creates an array of null pointers to Pair arrays that will be the size of the parameter
-PacketTable(uint32_t setSize);
-
++PacketTable(uint32_t setSize);
 //Creates an array of null pointers to Pair arrays that will be the size of DEFAULT_TABLE_SIZE
-PacketTable();
-
++PacketTable();
 //Deletes all the elements inside of the pairs that make up the table and then deletes the table/
-~PacketTable();
-
++~PacketTable();
 //Inserts an element into the hashtable.  Will fail if array is full.  Returns true if element was added successfully.
 //Called by PacketManager::insert
-bool Insert(const AbstractPacket* key, const Callback* callback);
-
++bool Insert(const AbstractPacket* key, const Callback* callback);
 //Gets the element at the hashed key and returns the callback, nullptr if no element exists at the key.
-Callback* GetCallback(uint32_t key);
-
++Callback* GetCallback(uint32_t key);
 //Gets the element at the hashed key and returns the AbstractPacket, nullptr if no element exists at the key.
-AbstractPacket* PacketTable::GetPacket(uint32_t key);
-
++AbstractPacket* PacketTable::GetPacket(uint32_t key);
 //Not implemented yet
-bool Remove(uint32_t key);
-
++bool Remove(uint32_t key);
 //Not implemented yet
-bool Resize(uint32_t newSize);
-
-private:
++bool Resize(uint32_t newSize);
+--
 //Increments i, sets it to 0 if greater than or equal to tableSize.  Called by Insert.
-int32_t TraverseIndex(int32_t i);
-
+-int32_t TraverseIndex(int32_t i);
 //Hashes the key and returns an integer between 0 and tableSize (but no equal to tableSize)
-uint32_t KeyHash(uint32_t key);
-
+-uint32_t KeyHash(uint32_t key);
 //An array of Pair* with size tableSize.  Where all the elements are inserted, etc.
-Pair** table;
-
+-Pair** table;
 //Number of elements in the array.
-uint32_t numOfPairs;
-
+-uint32_t numOfPairs;
 //The maximum amount of elements that can be stored in the map before a resize is needed.
-uint32_t tableSize;</panel_attributes>
+-uint32_t tableSize;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2208</x>
+      <x>2512</x>
       <y>3376</y>
       <w>400</w>
       <h>248</h>
     </coordinates>
     <panel_attributes>Serial
 --
-Serial();
-Serial(uint32_t id);
-~Serial();
++Serial();
++Serial(uint32_t id);
++~Serial();
 
-bool OpenConnection(const char* port, const char* address, uint32_t baudrate);
-bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
-bool Recv(uint8_t* rx_data, uint32_t* rx_length);
-serial_status GetStatus();
-bool CloseSerialPort();
-serial_t&amp; GetSerialPort();
-void SetId(uint32_t id);
++bool OpenConnection(const char* port, const char* address, uint32_t baudrate);
++bool Send(uint8_t dest_id, uint8_t* tx_data, uint32_t tx_length);
++bool Recv(uint8_t* rx_data, uint32_t* rx_length);
++serial_status GetStatus();
++bool CloseSerialPort();
++serial_t&amp; GetSerialPort();
++void SetId(uint32_t id);
 --
-int32_t id;
-serial_t h_serial;
-bool connection_established;
-Parser parser;
-uint8_t buffer_recv[];
-uint8_t buffer_send[];</panel_attributes>
+-int32_t id;
+-serial_t h_serial;
+-bool connection_established;
+-Parser parser;
+-uint8_t buffer_recv[];
+-uint8_t buffer_send[];</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2824</x>
+      <x>3128</x>
       <y>24</y>
       <w>400</w>
       <h>408</h>
@@ -719,7 +677,7 @@ uint8_t buffer_send[];</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2824</x>
+      <x>3128</x>
       <y>456</y>
       <w>384</w>
       <h>1456</h>
@@ -847,7 +805,7 @@ uint8_t buffer_send[];</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2168</x>
+      <x>2472</x>
       <y>1064</y>
       <w>400</w>
       <h>160</h>
@@ -870,10 +828,10 @@ uint8_t buffer_send[];</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1176</x>
-      <y>960</y>
+      <x>1480</x>
+      <y>1280</y>
       <w>184</w>
-      <h>152</h>
+      <h>128</h>
     </coordinates>
     <panel_attributes>Ping
 --
@@ -892,10 +850,10 @@ uint8_t buffer_send[];</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1376</x>
-      <y>960</y>
+      <x>1680</x>
+      <y>1280</y>
       <w>184</w>
-      <h>152</h>
+      <h>128</h>
     </coordinates>
     <panel_attributes>Pong
 --
@@ -912,7 +870,7 @@ uint8_t buffer_send[];</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2728</x>
+      <x>3032</x>
       <y>2016</y>
       <w>432</w>
       <h>152</h>
@@ -934,7 +892,7 @@ public:
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2336</x>
+      <x>2640</x>
       <y>2016</y>
       <w>352</w>
       <h>240</h>
@@ -964,7 +922,7 @@ public:
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>2800</x>
+      <x>3104</x>
       <y>0</y>
       <w>736</w>
       <h>1944</h>
@@ -980,7 +938,7 @@ bg=orange
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>1944</x>
+      <x>2248</x>
       <y>1968</y>
       <w>1256</w>
       <h>600</h>
@@ -993,7 +951,7 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2336</x>
+      <x>2640</x>
       <y>2352</y>
       <w>352</w>
       <h>176</h>
@@ -1018,7 +976,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2096</x>
+      <x>2400</x>
       <y>2288</y>
       <w>288</w>
       <h>80</h>
@@ -1029,7 +987,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2480</x>
+      <x>2784</x>
       <y>2248</y>
       <w>24</w>
       <h>120</h>
@@ -1040,7 +998,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2680</x>
+      <x>2984</x>
       <y>2160</y>
       <w>112</w>
       <h>240</h>
@@ -1051,7 +1009,7 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1968</x>
+      <x>2272</x>
       <y>2352</y>
       <w>256</w>
       <h>112</h>
@@ -1072,7 +1030,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2216</x>
+      <x>2520</x>
       <y>2416</y>
       <w>136</w>
       <h>32</h>
@@ -1084,7 +1042,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1808</x>
+      <x>2112</x>
       <y>2520</y>
       <w>632</w>
       <h>512</h>
@@ -1095,7 +1053,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1808</x>
+      <x>2112</x>
       <y>2808</y>
       <w>568</w>
       <h>224</h>
@@ -1106,7 +1064,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1560</x>
+      <x>1864</x>
       <y>1968</y>
       <w>24</w>
       <h>232</h>
@@ -1117,84 +1075,84 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1752</x>
-      <y>1816</y>
-      <w>64</w>
+      <x>2056</x>
+      <y>1800</y>
+      <w>72</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>60.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1480</x>
-      <y>1512</y>
-      <w>88</w>
-      <h>112</h>
+      <x>1784</x>
+      <y>1656</y>
+      <w>120</w>
+      <h>144</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;120.0;10.0;60.0;90.0;10.0</additional_attributes>
+    <additional_attributes>10.0;160.0;10.0;70.0;130.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1424</x>
-      <y>1512</y>
+      <x>1728</x>
+      <y>1688</y>
       <w>80</w>
       <h>112</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>80.0;120.0;80.0;60.0;10.0;10.0</additional_attributes>
+    <additional_attributes>80.0;120.0;80.0;30.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1288</x>
-      <y>1104</y>
+      <x>1592</x>
+      <y>1400</y>
       <w>24</w>
-      <h>64</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1408</x>
-      <y>1104</y>
+      <x>1712</x>
+      <y>1400</y>
       <w>24</w>
-      <h>64</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1672</x>
+      <x>1976</x>
       <y>2560</y>
       <w>24</w>
-      <h>56</h>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1640</x>
-      <y>2928</y>
+      <x>1944</x>
+      <y>2936</y>
       <w>24</w>
-      <h>96</h>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2456</x>
+      <x>2760</x>
       <y>2920</y>
       <w>56</w>
       <h>80</h>
@@ -1206,7 +1164,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2720</x>
+      <x>3024</x>
       <y>3160</y>
       <w>232</w>
       <h>288</h>
@@ -1217,7 +1175,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2184</x>
+      <x>2488</x>
       <y>3160</y>
       <w>160</w>
       <h>520</h>
@@ -1228,7 +1186,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2152</x>
+      <x>2456</x>
       <y>3160</y>
       <w>192</w>
       <h>272</h>
@@ -1239,7 +1197,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1944</x>
+      <x>2248</x>
       <y>3312</y>
       <w>24</w>
       <h>80</h>
@@ -1250,7 +1208,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2120</x>
+      <x>2424</x>
       <y>3040</y>
       <w>24</w>
       <h>48</h>
@@ -1261,7 +1219,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2456</x>
+      <x>2760</x>
       <y>3616</y>
       <w>24</w>
       <h>64</h>
@@ -1272,7 +1230,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1728</x>
+      <x>2032</x>
       <y>2136</y>
       <w>24</w>
       <h>64</h>
@@ -1283,111 +1241,110 @@ layer=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>880</x>
+      <x>1184</x>
       <y>2160</y>
       <w>464</w>
       <h>648</h>
     </coordinates>
     <panel_attributes>ConnectionStateManager
 --
-static bool ConStateEnabled;
++static bool ConStateEnabled;
 
-error_t CheckConnectRequestCallback(...);
-error_t CheckConnectReplyCallback(...);
++error_t CheckConnectRequestCallback(...);
++error_t CheckConnectReplyCallback(...);
 
-ConnectionStateManager(comnet::Comms* owner);
++ConnectionStateManager(comnet::Comms* owner);
 
-void LinkCallbacks();
-bool Run();
-void Stop();
++void LinkCallbacks();
++bool Run();
++void Stop();
 
-void AddConState(uint8_t nodeID);
-void RemoveConState(uint8_t nodeID);
++void AddConState(uint8_t nodeID);
++void RemoveConState(uint8_t nodeID);
 
-void UpdatePing(uint8_t nodeID, int32_t time);
-int16_t GetPing(uint8_t nodeID);
-bool IsActive();
-bool IsConnected();
++void UpdatePing(uint8_t nodeID, int32_t time);
++int16_t GetPing(uint8_t nodeID);
++bool IsActive();
++bool IsConnected();
 
-void ResetSendTime(uint8_t nodeID);
-bool ReadyToSendCheckConnectReply(uint8_t nodeID);
++void ResetSendTime(uint8_t nodeID);
++bool ReadyToSendCheckConnectReply(uint8_t nodeID);
 
-void SyncTime(uint8_t nodeID, int32_t timeOff);
-void CheckResync(uint8_t nodeID, int64_t unixHighResTimeDif);
++void SyncTime(uint8_t nodeID, int32_t timeOff);
++void CheckResync(uint8_t nodeID, int64_t unixHighResTimeDif);
 
-~ConnectionStateManager();
++~ConnectionStateManager();
 --
-void ConStateUpdateHandler();
-comnet::architecture::os::CommThread* conStateUpdateThread;
-comnet::architecture::os::CommConditionVariable conStateHandlerCV;
-bool running;
-CommMutex runningMutex;
-void SendCheckConReq(uint8_t nodeID);
+-void ConStateUpdateHandler();
+-comnet::architecture::os::CommThread* conStateUpdateThread;
+-comnet::architecture::os::CommConditionVariable conStateHandlerCV;
+-bool running;
+-CommMutex runningMutex;
+-void SendCheckConReq(uint8_t nodeID);
 
-void TransferToActiveConStates(std::list&lt;ConnectionState&gt;::iterator it);
-std::list &lt;ConnectionState&gt; activeConStates;
-comnet::architecture::os::CommMutex activeConStatesMutex;
+-void TransferToActiveConStates(std::list&lt;ConnectionState&gt;::iterator it);
+-std::list &lt;ConnectionState&gt; activeConStates;
+-comnet::architecture::os::CommMutex activeConStatesMutex;
 
-void TransferToInactiveConStates(std::list&lt;ConnectionState&gt;::iterator it);
-std::list&lt;ConnectionState&gt; inactiveConStates;
-CommMutex inactiveConStatesMutex;
+-void TransferToInactiveConStates(std::list&lt;ConnectionState&gt;::iterator it);
+-std::list&lt;ConnectionState&gt; inactiveConStates;
+-CommMutex inactiveConStatesMutex;
 
-std::unordered_map &lt;uint8_t, std::list&lt;ConnectionState&gt;::iterator&gt; destConStateMap;
-comnet::architecture::os::CommMutex destConStateMapMutex;
+-std::unordered_map &lt;uint8_t, std::list&lt;ConnectionState&gt;::iterator&gt; destConStateMap;
+-comnet::architecture::os::CommMutex destConStateMapMutex;
 
-std::shared_ptr&lt;TimeSyncManager&gt; syncManager;
-CheckConnectRequest* checkConRequestPack;
-CheckConnectReply* checkConReplyPack;
-Comms* owner'</panel_attributes>
+-std::shared_ptr&lt;TimeSyncManager&gt; syncManager;
+-CheckConnectRequest* checkConRequestPack;
+-CheckConnectReply* checkConReplyPack;
+-Comms* owner'</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>400</x>
+      <x>704</x>
       <y>2160</y>
       <w>432</w>
-      <h>424</h>
+      <h>400</h>
     </coordinates>
     <panel_attributes>TimeSyncManager
 --
-error_t TimeSyncRequestCallback(...);
-error_t TimeSyncReplyCallback(...);
++error_t TimeSyncRequestCallback(...);
++error_t TimeSyncReplyCallback(...);
 
-SyncManager(comnet::Comms* owner);
++SyncManager(comnet::Comms* owner);
 
-void LinkCallbacks();
-bool Run();
-void Stop();
++void LinkCallbacks();
++bool Run();
++void Stop();
 
-void AddUnsyncedConState(ConnectionState* conState);
-void RemoveUnsyncedConState(ConnectionState* conState);
++void AddUnsyncedConState(ConnectionState* conState);
++void RemoveUnsyncedConState(ConnectionState* conState);
 
-void SyncTime(ConnetionState* conState, int32_t time);
-void CheckResync(ConnectionState* conState, int64_t time);
++void SyncTime(ConnetionState* conState, int32_t time);
++void CheckResync(ConnectionState* conState, int64_t time);
 
-~SyncManager();
++~SyncManager();
 --
-void SyncUpdateHandler();
+-void SyncUpdateHandler();
+-void SendSyncRequest(uint8_t nodeID);
 
-void SendSyncRequest(uint8_t nodeID);
+-std::list&lt;ConnectionState*&gt; unsyncedPingers;
 
-std::list&lt;ConnectionState*&gt; unsyncedPingers;
+-comnet::architecture::os::CommThread* syncUpdateThread;
+-bool awake;
+-bool running;
 
-comnet::architecture::os::CommThread* syncUpdateThread;
-bool awake;
-bool running;
+-TimeSyncRequestPacket* syncRequestPacket;
+-TimeSyncReplyPacket* syncReplyPacket;
 
-TimeSyncRequestPacket* syncRequestPacket;
-TimeSyncReplyPacket* syncReplyPacket;
-
-Comms* owner;</panel_attributes>
+-Comms* owner;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>824</x>
+      <x>1128</x>
       <y>2368</y>
       <w>72</w>
       <h>24</h>
@@ -1398,79 +1355,79 @@ Comms* owner;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>928</x>
+      <x>1232</x>
       <y>2848</y>
       <w>368</w>
       <h>784</h>
     </coordinates>
     <panel_attributes>ConnectionState
 --
-static const int32_t MAX_UNIX_HIGHRES_TIME_DIF;
-static const uint32_t CHECK_CONNECT_REQUEST_SEND_DELAY;
-static onst uint32_t CHECK_CONNECT_REQUEST_RESEND_DELAY;
-static const uint32_t CHECK_CONNECT_REPLY_SEND_DELAY;
-static const uint32_t NUM_SYNC_REPLIES_TO_SYNC;
-static const uint32_t SYNC_REQUEST_SEND_DELAY;
-static const uint32_t MAX_CHECK_CONNECT_REQUESTS;
-static const uint32_t PING_UNKOWN;
-static comnet::constate::TimePoint GetNow();
++static const int32_t MAX_UNIX_HIGHRES_TIME_DIF;
++static const uint32_t CHECK_CONNECT_REQUEST_SEND_DELAY;
++static onst uint32_t CHECK_CONNECT_REQUEST_RESEND_DELAY;
++static const uint32_t CHECK_CONNECT_REPLY_SEND_DELAY;
++static const uint32_t NUM_SYNC_REPLIES_TO_SYNC;
++static const uint32_t SYNC_REQUEST_SEND_DELAY;
++static const uint32_t MAX_CHECK_CONNECT_REQUESTS;
++static const uint32_t PING_UNKOWN;
++static comnet::constate::TimePoint GetNow();
 
-ConnectionState(uint8_t nodeID);
++ConnectionState(uint8_t nodeID);
 
-uint8_t GetNodeID();
++uint8_t GetNodeID();
 
-void ResetSyncRequestSentTime();
-uint32_t GetTimeUntilSendSyncRequest();
++void ResetSyncRequestSentTime();
++uint32_t GetTimeUntilSendSyncRequest();
 
-void ResetCheckConnectRequestSentTimeToSend();
-void ResetCheckConnectRequestSentTimeToResend();
-uint32_t GetTimeUntilSendCheckConnectRequest();
-bool IsInactive();
-bool IsConnected();
++void ResetCheckConnectRequestSentTimeToSend();
++void ResetCheckConnectRequestSentTimeToResend();
++uint32_t GetTimeUntilSendCheckConnectRequest();
++bool IsInactive();
++bool IsConnected();
 
-void ResetCheckConnectReplySentTime();
-uint32_t GetTimeUntilSendCheckConnectReply();
++void ResetCheckConnectReplySentTime();
++uint32_t GetTimeUntilSendCheckConnectReply();
 
-bool IsResyncRequired(int64_t unixTime);
-void Resync();
-void SetUnixHighResTimeDif(int64_t unixHighResTimeDif);
++bool IsResyncRequired(int64_t unixTime);
++void Resync();
++void SetUnixHighResTimeDif(int64_t unixHighResTimeDif);
 
-void SyncTime(int32_t timeOff);
-bool IsSynced();
-bool IsInUnsyncedList();
-void SetInUnsyncedList(bool mode);
++void SyncTime(int32_t timeOff);
++bool IsSynced();
++bool IsInUnsyncedList();
++void SetInUnsyncedList(bool mode);
 
-void UpdatePing(MillisInt time);
-int16_t GetPing();
++void UpdatePing(MillisInt time);
++int16_t GetPing();
 
-~ConnectionState();
++~ConnectionState();
 
 --
-uint8_t nodeID;
+-uint8_t nodeID;
 
-TimePoint lastSyncRequestSentTime;
-int32_t syncRequestSendDelay;
+-TimePoint lastSyncRequestSentTime;
+-int32_t syncRequestSendDelay;
 
-comnet::constate::TimePoint lastCheckConnectRequestSentTime;
-int32_t checkConRequestSendDelay;
-uint8_t numUnansweredCheckConRequests;
+-comnet::constate::TimePoint lastCheckConnectRequestSentTime;
+-int32_t checkConRequestSendDelay;
+-uint8_t numUnansweredCheckConRequests;
 
-comnet::constate::TimePoint lastCheckConnectReplySentTime;
+-comnet::constate::TimePoint lastCheckConnectReplySentTime;
 
-uint8_t numSyncRepliesReceived;
+-uint8_t numSyncRepliesReceived;
 
-bool inUnsyncedList;
-int32_t timeOff;
-uint8_t numSyncRepliesReceived;
-int64_t unixHighResTimeDif;
+-bool inUnsyncedList;
+-int32_t timeOff;
+-uint8_t numSyncRepliesReceived;
+-int64_t unixHighResTimeDif;
 
-int16_t ping;</panel_attributes>
+-int16_t ping;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1096</x>
+      <x>1400</x>
       <y>2800</y>
       <w>24</w>
       <h>64</h>
@@ -1481,7 +1438,7 @@ int16_t ping;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>968</x>
+      <x>1272</x>
       <y>2088</y>
       <w>24</w>
       <h>88</h>
@@ -1492,23 +1449,23 @@ int16_t ping;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>856</x>
+      <x>1160</x>
       <y>2016</y>
       <w>264</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>CheckConnectRequest
 --
-CheckConnectReply();
-void Pack(comnet::serialization::ObjectStream&amp;);
-void Unpack(comnet::serialization:ObjectStream&amp;);
-comnet::AbstractPacket* Create();</panel_attributes>
++CheckConnectRequest();
++void Pack(comnet::serialization::ObjectStream&amp;) override;
++void Unpack(comnet::serialization:ObjectStream&amp;) override;
++comnet::AbstractPacket* Create() override;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1200</x>
+      <x>1504</x>
       <y>2088</y>
       <w>24</w>
       <h>88</h>
@@ -1519,104 +1476,110 @@ comnet::AbstractPacket* Create();</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1128</x>
+      <x>1432</x>
       <y>2016</y>
       <w>264</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>CheckConnectReply
 --
-CheckConnectReply();
-void Pack(comnet::serialization::ObjectStream&amp;);
-void Unpack(comnet::serialization:ObjectStream&amp;);
-comnet::AbstractPacket* Create();</panel_attributes>
++CheckConnectReply();
++void Pack(comnet::serialization::ObjectStream&amp;) override;
++void Unpack(comnet::serialization:ObjectStream&amp;) override;
++comnet::AbstractPacket* Create() override;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1224</x>
-      <y>1512</y>
+      <x>1528</x>
+      <y>1688</y>
       <w>48</w>
-      <h>520</h>
+      <h>344</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;520.0;40.0;520.0;40.0;630.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;300.0;40.0;300.0;40.0;410.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>312</x>
-      <y>2016</y>
-      <w>264</w>
-      <h>96</h>
+      <x>344</x>
+      <y>1992</y>
+      <w>400</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>TimeSyncRequest
 --
-CheckConnectReply();
-void Pack(comnet::serialization::ObjectStream&amp;);
-void Unpack(comnet::serialization:ObjectStream&amp;);
-comnet::AbstractPacket* Create();
++TimeSyncRequest();
++void Pack(comnet::serialization::ObjectStream&amp;) override;
++void Unpack(comnet::serialization:ObjectStream&amp;) override;
++comnet::AbstractPacket* Create() override;
++void SetTimeDif(UnixMillisInt unixTimeMillis, UnixMillisInt highRestTimeMillis);
++UnixMillisInt GetTimeDif();
 --
-int64_t unixHighResTimeDif;</panel_attributes>
+-int64_t unixHighResTimeDif;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>584</x>
-      <y>2016</y>
-      <w>264</w>
-      <h>104</h>
+      <x>752</x>
+      <y>1960</y>
+      <w>400</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>TimeSyncReply
 --
-CheckConnectReply();
-void Pack(comnet::serialization::ObjectStream&amp;);
-void Unpack(comnet::serialization:ObjectStream&amp;);
-comnet::AbstractPacket* Create();
++TimeSyncReply();
++void Pack(comnet::serialization::ObjectStream&amp;) override;
++void Unpack(comnet::serialization:ObjectStream&amp;) override;
++comnet::AbstractPacket* Create() override;
++void SetRequestSentTIme(int32_t requestSentTime);
++void SetTimeDif(UnixMillisInt unixTimeMillis, UnixMillisInt highResTimeMillis);
++UnixMillisInt GetTimeDif();
++MillisInt GetRequestSentTime();
 --
-int32_t requestSentTime;
-int64_t unixTimeHighResTimeDif;</panel_attributes>
+-int32_t requestSentTime;
+-int64_t unixTimeHighResTimeDif;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>968</x>
-      <y>1512</y>
+      <x>1272</x>
+      <y>1688</y>
       <w>280</w>
-      <h>520</h>
+      <h>344</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>330.0;10.0;330.0;520.0;10.0;520.0;10.0;630.0</additional_attributes>
+    <additional_attributes>330.0;10.0;330.0;300.0;10.0;300.0;10.0;410.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>720</x>
-      <y>1512</y>
+      <x>1024</x>
+      <y>1688</y>
       <w>528</w>
-      <h>520</h>
+      <h>288</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>640.0;10.0;640.0;520.0;10.0;520.0;10.0;630.0</additional_attributes>
+    <additional_attributes>640.0;10.0;640.0;300.0;10.0;300.0;10.0;340.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
-      <y>1512</y>
-      <w>808</w>
-      <h>520</h>
+      <x>608</x>
+      <y>1688</y>
+      <w>944</w>
+      <h>320</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>990.0;10.0;990.0;520.0;10.0;520.0;10.0;630.0</additional_attributes>
+    <additional_attributes>1160.0;10.0;1160.0;300.0;180.0;300.0;10.0;380.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>720</x>
+      <x>1024</x>
       <y>2112</y>
       <w>24</w>
       <h>64</h>
@@ -1627,20 +1590,20 @@ int64_t unixTimeHighResTimeDif;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>432</x>
-      <y>2104</y>
-      <w>24</w>
-      <h>72</h>
+      <x>600</x>
+      <y>2112</y>
+      <w>160</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+    <additional_attributes>180.0;60.0;160.0;30.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>304</x>
-      <y>1880</y>
-      <w>1096</w>
+      <x>336</x>
+      <y>1872</y>
+      <w>1368</w>
       <h>1776</h>
     </coordinates>
     <panel_attributes>ConState
@@ -1652,67 +1615,67 @@ layer=-1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2952</x>
+      <x>3256</x>
       <y>2776</y>
       <w>480</w>
       <h>632</h>
     </coordinates>
     <panel_attributes>TCPLink
 --
-static const int ACCEPT_DELAY_MILLIS;
-static const int RECV_PORT_ATTEMPTS;
-static const int RECV_PORT_DELAY_MILLIS;
-static const int RECV_PORT_REPLY_ATTEMPTS;
-static const int RECV_PORT_REPLY_DELAY_MILLIS;
++static const int ACCEPT_DELAY_MILLIS;
++static const int RECV_PORT_ATTEMPTS;
++static const int RECV_PORT_DELAY_MILLIS;
++static const int RECV_PORT_REPLY_ATTEMPTS;
++static const int RECV_PORT_REPLY_DELAY_MILLIS;
 
-static const int CON_DELAY_MILLIS;
-static const uint8_t PORT_PAYLOAD_SIZE;
-static const uint8_t PORT_REPLY_SIZE;
++static const int CON_DELAY_MILLIS;
++static const uint8_t PORT_PAYLOAD_SIZE;
++static const uint8_t PORT_REPLY_SIZE;
 
-static const uint8_t ADD_QUEUE_EVENT;
-static const uint8_t REMOVE_QUEUE_EVENT;
++static const uint8_t ADD_QUEUE_EVENT;
++static const uint8_t REMOVE_QUEUE_EVENT;
 
-TCPLink();
++TCPLink();
 
-bool InitConnection(const char* port, const char* address, uint32_t baudrate);
-bool AddAddress(uint8_t dest_id, const char* address, uint16t port);
-bool RemoveAddress(uint8_t dest_id);
-bool Send(uint8_t dest_id, int8_t* tx_data, uint32_t tx_length);
-bool Recv(uint8_t* rx_data, uint32_t* rx_length);
-void DigestCommand(const char* cmd);
++bool InitConnection(const char* port, const char* address, uint32_t baudrate);
++bool AddAddress(uint8_t dest_id, const char* address, uint16t port);
++bool RemoveAddress(uint8_t dest_id);
++bool Send(uint8_t dest_id, int8_t* tx_data, uint32_t tx_length);
++bool Recv(uint8_t* rx_data, uint32_t* rx_length);
++void DigestCommand(const char* cmd);
 --
-bool RunHandlers();
-void AcceptHandler();
-void ConnectHandler();
-bool SetSocket(uint8_t id, CommSocket* replacement);
-bool Connect(std::shared_ptr&lt;TCPHolder&gt; conInfo);
-bool ShouldConnect(std::shared_ptr&lt;TCPHolder&gt; conInfo);
-uint8_t AddressToID(USHORT port, IN_ADDR address, CommSocket* socket, bool&amp; success);
+-bool RunHandlers();
+-void AcceptHandler();
+-void ConnectHandler();
+-bool SetSocket(uint8_t id, CommSocket* replacement);
+-bool Connect(std::shared_ptr&lt;TCPHolder&gt; conInfo);
+-bool ShouldConnect(std::shared_ptr&lt;TCPHolder&gt; conInfo);
+-uint8_t AddressToID(USHORT port, IN_ADDR address, CommSocket* socket, bool&amp; success);
 
-CommSocket* local;
-IN_ADDR localIP;
-USHORT localPort;
+-CommSocket* local;
+-IN_ADDR localIP;
+-USHORT localPort;
 
-std::list&lt;std::shared_ptr&lt;TCPHolder&gt;&gt; connectLIst;
-std::queue&lt;std::pair&lt;bool, std::shared_ptr&lt;TCPHolder&gt;&gt; connectModifyQueue;
-comnet::architecture::os::CommMutex connectModifyQueueMutex;
-comnet::architecture::os::CommThread* connectThread;
-comnet::architecture::os::CommConditionVariable connectCondVar;
+-std::list&lt;std::shared_ptr&lt;TCPHolder&gt;&gt; connectLIst;
+-std::queue&lt;std::pair&lt;bool, std::shared_ptr&lt;TCPHolder&gt;&gt; connectModifyQueue;
+-comnet::architecture::os::CommMutex connectModifyQueueMutex;
+-comnet::architecture::os::CommThread* connectThread;
+-comnet::architecture::os::CommConditionVariable connectCondVar;
 
-std::list&lt;std::shared_ptr&lt;TCPHolder&gt;&gt; acceptList;
-std::queue&lt;std::pair&lt;bool, std::shared_ptr&lt;TCPHolder&gt;&gt; acceptModifyQueue;
-comnet::architecture::os::CommMutex acceptModifyQueueMutex;
-comnet::architecture::os::CommThread* acceptThread;
-comnet::architecture::os::CommConditionVariable acceptCondVar;
+-std::list&lt;std::shared_ptr&lt;TCPHolder&gt;&gt; acceptList;
+-std::queue&lt;std::pair&lt;bool, std::shared_ptr&lt;TCPHolder&gt;&gt; acceptModifyQueue;
+-comnet::architecture::os::CommMutex acceptModifyQueueMutex;
+-comnet::architecture::os::CommThread* acceptThread;
+-comnet::architecture::os::CommConditionVariable acceptCondVar;
 
-std::unordered_map&lt;uint8_t, std::shared_ptr&lt;TCPHolder&gt;&gt; clients;
-comnet::architecture::os::CommMutex clientsMutex;</panel_attributes>
+-std::unordered_map&lt;uint8_t, std::shared_ptr&lt;TCPHolder&gt;&gt; clients;
+-comnet::architecture::os::CommMutex clientsMutex;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2720</x>
+      <x>3024</x>
       <y>3000</y>
       <w>248</w>
       <h>24</h>
@@ -1723,31 +1686,30 @@ comnet::architecture::os::CommMutex clientsMutex;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2984</x>
+      <x>3288</x>
       <y>2576</y>
       <w>416</w>
       <h>176</h>
     </coordinates>
     <panel_attributes>TCPHolder
 --
-TCPHolder(TCPHolder&amp; copy, CommSocket* replacement);
-TCPHolder(uint16_t port, const char* addr, uint8_t destID, CommSocket* socket);
++TCPHolder(TCPHolder&amp; copy, CommSocket* replacement);
++TCPHolder(uint16_t port, const char* addr, uint8_t destID, CommSocket* socket);
++~TCPHolder();
 
-~TCPHolder();
-
-bool connect;
-USHORT port;
-IN_ADDR address;
-CommSocket* socket;
-uint16_t portInput;
-std::string addressInput;
-uint8_t destID;</panel_attributes>
++bool connect;
++USHORT port;
++IN_ADDR address;
++CommSocket* socket;
++uint16_t portInput;
++std::string addressInput;
++uint8_t destID;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3184</x>
+      <x>3488</x>
       <y>2744</y>
       <w>24</w>
       <h>48</h>
@@ -1758,65 +1720,65 @@ uint8_t destID;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3536</x>
+      <x>3840</x>
       <y>2936</y>
       <w>648</w>
       <h>248</h>
     </coordinates>
     <panel_attributes>TcpSocket
 --
-static void InitializeSockAddr(const char* address, PORT port, struct sockaddr_in* s);
++static void InitializeSockAddr(const char* address, PORT port, struct sockaddr_in* s);
 
-TcpSocket();
-~TcpSocket();
++TcpSocket();
++~TcpSocket();
 
-int32_t SockConnect(const char* address, PORT port) override;
-int32_t SockSend(const char* buffer, uint32_t len, const char* address, uint32_t port) override;
-packet_data_status_t SocckReceive(cosnt char* buffer, uint32_t len, uint32_t&amp; size, const char* address, uint32_t port) override;
++int32_t SockConnect(const char* address, PORT port) override;
++int32_t SockSend(const char* buffer, uint32_t len, const char* address, uint32_t port) override;
++packet_data_status_t SocckReceive(cosnt char* buffer, uint32_t len, uint32_t&amp; size, const char* address, uint32_t port) override;
 //NOT IMPLEMENTED
-int32_t SockAsyncConnect(const char* address, uint32_t port);
-int32_t SockListen(const char* address, uint32_t port) override;
++int32_t SockAsyncConnect(const char* address, uint32_t port);
++int32_t SockListen(const char* address, uint32_t port) override;
 //NOT IMPLEMENTED
-int32_t SockListen(uint32_t port) override;
-CommSocket* SockAccept() override;
-CommSocket* SockAccept(sockaddr_in&amp; connectedAddress) override;
-void SockClose() override;
-bool SetTcpNoDelay(SOCKET sock, bool on);
++int32_t SockListen(uint32_t port) override;
++CommSocket* SockAccept() override;
++CommSocket* SockAccept(sockaddr_in&amp; connectedAddress) override;
++void SockClose() override;
++bool SetTcpNoDelay(SOCKET sock, bool on);
 --
-TcpSocket(SOCKET socket);
-CommSocket* CreateTcpSocket();</panel_attributes>
+-TcpSocket(SOCKET socket);
+-CommSocket* CreateTcpSocket();</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3544</x>
-      <y>2768</y>
+      <x>3848</x>
+      <y>2696</y>
       <w>640</w>
-      <h>136</h>
+      <h>208</h>
     </coordinates>
     <panel_attributes>/CommSocket/
 --
-~CommSocket();
++~CommSocket();
 
-virtual int32_t SockSend(const char* buffer, uint32_t len, const char* address, uint32_t port) = 0;
-virtual packet_data_status_t SockReceive(const char* buffer, uint32_t len, uint32_t&amp; size, const char* address, uint32_t port) = 0;
-virtual int32_t SockConnect(const char* address, uint32_t port) = 0;
-virtual int32_t SockAsyncConnect(const char* address, uint32_t port) = 0;
-virtual int32_t SockListen(const char* address, uint32_t port) = 0;
-virtual int32_t SockListen(uint32_t port) = 0;
-virtual CommSocket* SockAccept() = 0;
-virtual CommSocket* SockAccept(sockaddr_in&amp; connectedAddress) = 0;
-virtual void SockClose() = 0;
++virtual int32_t SockSend(const char* buffer, uint32_t len, const char* address, uint32_t port) = 0;
++virtual packet_data_status_t SockReceive(const char* buffer, uint32_t len, uint32_t&amp; size, const char* address, uint32_t port) = 0;
++virtual int32_t SockConnect(const char* address, uint32_t port) = 0;
++virtual int32_t SockAsyncConnect(const char* address, uint32_t port) = 0;
++virtual int32_t SockListen(const char* address, uint32_t port) = 0;
++virtual int32_t SockListen(uint32_t port) = 0;
++virtual CommSocket* SockAccept() = 0;
++virtual CommSocket* SockAccept(sockaddr_in&amp; connectedAddress) = 0;
++virtual void SockClose() = 0;
 
-CommSocket* CreateTcpSocket();
-CommSocket* CreateUdpSocket();//NOT IMPLEMENTED</panel_attributes>
++static CommSocket* CreateTcpSocket();
++static CommSocket* CreateUdpSocket();</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3856</x>
+      <x>4160</x>
       <y>2896</y>
       <w>24</w>
       <h>56</h>
@@ -1827,7 +1789,7 @@ CommSocket* CreateUdpSocket();//NOT IMPLEMENTED</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3424</x>
+      <x>3728</x>
       <y>3056</y>
       <w>128</w>
       <h>24</h>
@@ -1838,23 +1800,23 @@ CommSocket* CreateUdpSocket();//NOT IMPLEMENTED</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2296</x>
+      <x>2600</x>
       <y>3256</y>
       <w>152</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>serial_info (serial_t)
 --
-speed_t baudrate;
-serial_status serial_s;
-port_id fd;
-serial_h h_serial;</panel_attributes>
++speed_t baudrate;
++serial_status serial_s;
++port_id fd;
++serial_h h_serial;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2360</x>
+      <x>2664</x>
       <y>3328</y>
       <w>24</w>
       <h>64</h>
@@ -1865,28 +1827,28 @@ serial_h h_serial;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2456</x>
+      <x>2760</x>
       <y>3216</y>
       <w>472</w>
       <h>128</h>
     </coordinates>
     <panel_attributes>Parser
 --
-Parser();
-~Parser();
-void ParseSend(uint8_t* tx_data, uint32_t tx_length, uint8_t* crc_data, uint8_t* parsed_data);
-bool ParseReceive(uint8_t* rx_data, uint32_t&amp; rx_length, uint8_t *parsed_data);
-bool ParseReceiveDone();
++Parser();
++~Parser();
++void ParseSend(uint8_t* tx_data, uint32_t tx_length, uint8_t* crc_data, uint8_t* parsed_data);
++bool ParseReceive(uint8_t* rx_data, uint32_t&amp; rx_length, uint8_t *parsed_data);
++bool ParseReceiveDone();
 --
-char terminal_sequence;
-uint32_t parser_position;
-uint32_t last_received_length;</panel_attributes>
+-char terminal_sequence;
+-uint32_t parser_position;
+-uint32_t last_received_length;</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2560</x>
+      <x>2864</x>
       <y>3336</y>
       <w>24</w>
       <h>56</h>
@@ -1897,7 +1859,7 @@ uint32_t last_received_length;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>3248</x>
+      <x>3552</x>
       <y>472</y>
       <w>248</w>
       <h>56</h>
@@ -1912,7 +1874,7 @@ layer=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>3200</x>
+      <x>3504</x>
       <y>488</y>
       <w>64</w>
       <h>32</h>
